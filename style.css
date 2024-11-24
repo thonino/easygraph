@@ -6,8 +6,21 @@
   width:  125px;
   height: 20px;
 }
-
-#pick {
-  width:  20px;
+#graph-3 {
+  width:  125px;
   height: 20px;
 }
+
+.pick {
+  width:  20px ;
+  height: 20px;
+}
+
+.h-20{
+  height: 20px;
+}
+
+.fix-txt{
+  margin-top: -3px;
+}
+
