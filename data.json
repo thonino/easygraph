@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "name": "Children",
+    "value": 80,
+    "color": "bg-warning"
+  },
+  {
+    "id": 2,
+    "name": "Adults",
+    "value": 40,
+    "color": "bg-success"
+  }
+]

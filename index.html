@@ -21,7 +21,6 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
             <a class="nav-link active" aria-current="page" href="#">About</a>
-            <a class="nav-link" href="#">Tips</a>
             <a class="nav-link" href="#">Contact</a>
           </div>
         </div>
@@ -32,7 +31,7 @@
     <h1 class="fw-bold text-secondary text-center mt-" id="title">EasyGraph</h1>
 
     <!-- Models -->
-    <div class="text-secondary fs-2 d-flex justify-content-center gap-4 mt-3">
+    <div class="fs-2 text-secondary d-flex justify-content-center gap-4 mt-3">
       <i class="bi bi-bar-chart-steps text-info"></i>
         <i class="bi bi-bar-chart-fill "></i>
         <i class="bi bi-circle-fill"></i>
@@ -41,7 +40,7 @@
     </div>
 
     <!-- Tools -->
-    <div class="d-flex m-2 ">
+    <div class="d-flex m-2">
       <!-- Buttons -->
       <div class="d-flex gap-2 col-4 m-0">
         <button 
@@ -50,7 +49,9 @@
           data-bs-toggle="modal" 
           data-bs-target="#modal"
         >
-          <i class="bi bi-plus-lg "><span class="d-sm-inline d-none">Add</span></i>
+          <i class="bi bi-plus-lg ">
+            <span class="d-sm-inline d-none">Add</span>
+          </i>
         </button>
         <button class="btn btn-sm btn-secondary m-0">
           <i class="bi bi-gear-fill"></i>
@@ -58,42 +59,120 @@
         <button class="btn btn-sm btn-secondary m-0">
           <i class="bi bi-fonts"></i>
         </button>
-        <button class="btn btn-sm btn-danger m-0">
+        <button class="btn btn-sm btn-danger m-0" id="delete">
           <i class="bi bi-trash3-fill"></i>
         </button>
       </div>
+      
       <!-- Modal -->
-      <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div 
+        class="modal fade" 
+        id="modal" 
+        tabindex="-1" 
+        aria-labelledby="exampleModalLabel" 
+        aria-hidden="true"
+      >
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title text-success fw-bold fs-5" id="exampleModalLabel">
+              <h1 
+                class="modal-title text-success fw-bold fs-5" 
+                id="exampleModalLabel"
+              >
                 <i class="bi bi-plus-lg ">Add Data</i>
               </h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button 
+                type="button" 
+                class="btn-close" 
+                data-bs-dismiss="modal" 
+                aria-label="Close"
+              ></button>
             </div>
             <div class="modal-body">
-              <div class="mb-3"> 
-                <label for="recipient-name" class="col-form-label fw-bold text-secondary">
-                  Data Name
-                </label>
-                <input type="text" class="form-control" id="dataName" placeholder="name...">
+              <!-- Name -->
+              <div class="mb-3">
+                <label for="recipient-name" class="col-form-label text-secondary">Name</label>
+                <input type="text" class="form-control" id="dataName" placeholder="enter...">
               </div>
-              <div class="mb-3 col-3">
-                <label for="recipient-name" class="col-form-label fw-bold text-secondary">
-                  Data Number
-                </label>
-                <input type="text" class="form-control" id="dataNumber" placeholder="number...">
+              <div class="row">
+                <!-- Number -->
+                <div class="col-5">
+                  <label for="dataNumber" class="col-form-label text-secondary">Number</label>
+                  <input type="text" class="form-control" id="dataNumber" placeholder="enter...">
+                </div>
+                <!-- Color -->
+                <div class="col-5">
+                  <label for="dropdownMenu" class="col-form-label text-secondary">Select color</label>
+                  <div class="dropdown">
+                    <button 
+                      class="btn btn-outline-secondary dropdown-toggle w-100" 
+                      type="button" 
+                      id="dropdownMenu"
+                      data-bs-toggle="dropdown" 
+                      aria-expanded="false"
+                    >
+                      <span class="text-dark">Color </span>
+                    </button>
+                    <ul class="dropdown-menu  w-100" aria-labelledby="dropdownMenu">
+                      <button
+                        value="0"
+                        id="color0" 
+                        class="dropdown-item text-light bg-success" 
+                        type="button"
+                      >
+                        Success
+                      </button>
+                      <button
+                        value="1"
+                        id="color1" 
+                        class="dropdown-item text-light bg-primary" 
+                        type="button"
+                      >
+                      Primary
+                    </button>
+                    <button
+                      value="2"
+                      id="color2" 
+                      class="dropdown-item  bg-info" 
+                      type="button"
+                    >
+                      Info
+                    </button>
+                    <button
+                      value="3"
+                      id="color3" 
+                      class="dropdown-item bg-warning"
+                      type="button"
+                    >
+                      Warning
+                    </button>
+                    <button
+                      value="4"
+                      id="color4" 
+                      class="dropdown-item text-light bg-danger" 
+                      type="button"
+                    >
+                      Danger
+                    </button>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="addData">
+              <button 
+                type="button" 
+                class="btn btn-success" 
+                data-bs-dismiss="modal" 
+                id="addData"
+              >
                 Save
               </button>
             </div>
           </div>
         </div>
       </div>
+
       <!-- Title -->
       <div class="text-center col-8">
         <p class="fs-4 text-dark m-0">Title</p>
@@ -105,27 +184,27 @@
       <!-- items &  AppendChild -->
       <div class="col-4" id="child-item"> 
         <!-- it 1 -->
-        <div id="item-1" class="d-flex fw-bold my-2 h-20">
+        <!-- <div id="item-1" class="d-flex fw-bold my-2 h-20">
           <div id="pick-1" class="bg-warning rounded pick"></div>
           <div id="row-1" class="d-flex text-secondary fix-txt" >
             <p id="number-1" class="mx-2"> 80 </p>
             <p id="name-2" class="fst-italic fw-light"> Children </p>
           </div>
-        </div>
+        </div> -->
         <!-- it 2 -->
-        <div id="item-2" class="d-flex fw-bold my-2 h-20">
+        <!-- <div id="item-2" class="d-flex fw-bold my-2 h-20">
           <div id="pick-2" class="bg-success rounded pick" ></div>
           <div id="row-2" class="d-flex text-secondary fix-txt">
             <p id="number-2" class="mx-2"> 40 </p>
             <p id="name-2" class="fst-italic fw-light"> Adults </p>
           </div>
-        </div>
+        </div> -->
       </div>
       
       <!-- Graph AppendChild-->
       <div id="child-graph" class="col-8"> 
-        <div id="graph-1" class="bg-warning rounded-end my-2"></div>
-        <div id="graph-2" class="bg-success rounded-end my-2"></div>
+        <!-- <div id="graph-1" class="bg-warning rounded-end my-2"></div>
+        <div id="graph-2" class="bg-success rounded-end my-2"></div> -->
       </div>
     </div>
     <script src="index.js"></script>
