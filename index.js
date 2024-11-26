@@ -1,59 +1,101 @@
-// Add data
-let dataName = document.getElementById("dataName");
-let dataNumber = document.getElementById("dataNumber");
-let addData = document.getElementById("addData");
+// export modal
+fetch('_modal.html')
+  .then(response => response.text())
+  .then(html => {
+    document.getElementById('_modal').innerHTML = html;
+    // Modal select color 
+    let colors = ["bg-success", "bg-primary", "bg-info", "bg-warning", "bg-danger"];
+    for (let i = 0; i < colors.length; i++) { 
+      let colorButton = document.getElementById("color" + i);
+      if (colorButton) { // Vérifier que le bouton existe
+        colorButton.addEventListener("click", function () {
+          let dropdownMenu = document.getElementById("dropdownMenu");
+          let choice = document.getElementById("choice");
+          if (dropdownMenu && choice) {
+            dropdownMenu.classList.remove(...colors);
+            dropdownMenu.classList.add(colors[i]);
+            choice.innerHTML = colors[i];
+            console.log("Couleur sélectionnée :", colors[i]);
+          }
+        });
+      }
+    }
+  })
+  .catch(error => console.error("Erreur lors du chargement du modal :", error));
 
-addData.addEventListener("click", () => {
-  // Add Item
-  let targetItem = document.getElementById("child-item");
+// Fetch json data 
+fetch("data.json")
+  .then((response) => response.json())
+  .then((data) => {  app.datas = data; })
+  .catch((error) => console.error("Erreur :", error));
 
-  let newItem = document.createElement("div");
-  newItem.classList.add("d-flex", "fw-bold", "my-2", "h-20");
+// Syntax : vue.js 
+const app = Vue.createApp({
+  data() { return {  datas: [] }; },
+}).mount("#dataJson");
 
-  let itemId = `item-${targetItem.children.length + 1}`;
-  newItem.id = itemId;
-
-  let pick = document.createElement("div");
-  pick.classList.add("bg-info", "rounded", "pick");
-  newItem.appendChild(pick);
-
-  let pickId = `pick-${targetItem.children.length + 1}`;
-  pick.id = pickId;
-
-  let dataContainer = document.createElement("div");
-  dataContainer.classList.add("d-flex", "text-secondary", "fix-txt");
-  newItem.appendChild(dataContainer);
-
-  let rowId = `row-${targetItem.children.length + 1}`;
-  dataContainer.id = rowId;
-
-  let newDataNumber = document.createElement("p");
-  newDataNumber.textContent = dataNumber.value;
-  newDataNumber.classList.add("mx-2");
-  dataContainer.appendChild(newDataNumber);
-
-  let numId = `number-${targetItem.children.length + 1}`;
-  newDataNumber.id = numId;
-
-  let newDataName = document.createElement("p");
-  newDataName.textContent = dataName.value;
-  newDataName.classList.add("fst-italic", "fw-light");
-  dataContainer.appendChild(newDataName);
-
-  let nameId = `name-${targetItem.children.length + 1}`;
-  newDataName.id = nameId;
-
-  targetItem.appendChild(newItem); // Ajouter l'élément !! important
-
-  // Add Graph
-  let targetGraph = document.getElementById("child-graph");
-
-  let newGraph = document.createElement("div");
-  newGraph.classList.add("bg-info", "rounded-end", "my-2");
-
-  let graphId = `graph-${targetGraph.children.length + 1}`;
-  newGraph.id = graphId;
-
-  targetGraph.appendChild(newGraph); // Ajouter l'élément !! important
+// Récupère le bouton "Save"
+document.getElementById("addData").addEventListener("click", function () {
+  let dataName = document.getElementById("dataName").value;
+  let dataNumber = document.getElementById("dataNumber").value;
+  let dropdownMenu = document.getElementById("dropdownMenu");
+  let selectedColor = dropdownMenu.classList.value.split(" ").find(c => c.startsWith("bg-"));
+  let newData = {
+    name: dataName,
+    value: dataNumber,
+    color: selectedColor
+  };
 });
 
+// delete element
+let deleteData = document.getElementById("delete")
+deleteData.addEventListener("click", () => {
+  let item = document.getElementById("item-1");
+  let graph = document.getElementById("graph-1");
+  item.remove(); graph.remove();   
+})
+
+
+function addNewItem(data, newItem) {
+  data.push(newItem); // Ajouter un nouvel élément dans le tableau
+  console.log(data); // Afficher les nouvelles données
+}
+
+let newItem = { id: 3, name: "Seniors", value: 30, color: "bg-primary" };
+fetch('data.json')
+  .then(response => response.json())
+  .then(data => {
+    addNewItem(data, newItem);
+  })
+
+  const fs = require('fs');
+
+const saveData = (data) => {
+  fs.writeFile('data.json', JSON.stringify(data, null, 2), (err) => {
+    if (err) {
+      console.error('Erreur lors de l\'écriture du fichier JSON', err);
+    } else {
+      console.log('Données sauvegardées dans data.json');
+    }
+  });
+};
+
+// Exemple d'utilisation
+let newData = [
+  { id: 1, name: "Children", value: 80, color: "bg-warning" },
+  { id: 2, name: "Adults", value: 40, color: "bg-success" },
+  { id: 3, name: "Seniors", value: 30, color: "bg-primary" }
+];
+
+saveData(newData);
+
+fetch('http://localhost:3000/save', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(newData)
+})
+  .then(response => response.json())
+  .then(result => console.log("Sauvegardé :", result))
+  .catch(error => console.error("Erreur :", error));

@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EasyGraph</title>
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
       <link rel="stylesheet" href="style.css">
+      <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+      <link rel="stylesheet" href="bootstrap-icons/font/bootstrap-icons.min.css">
+      <script src="https://cdn.jsdelivr.net/npm/vue@3.3.4/dist/vue.global.min.js"></script>
   </head>
   <body>
     <!-- Nav -->
@@ -21,27 +21,26 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
             <a class="nav-link active" aria-current="page" href="#">About</a>
-            <a class="nav-link" href="#">Tips</a>
             <a class="nav-link" href="#">Contact</a>
           </div>
         </div>
       </div>
     </nav>
-    
+
     <!-- Title -->
     <h1 class="fw-bold text-secondary text-center mt-" id="title">EasyGraph</h1>
 
     <!-- Models -->
-    <div class="text-secondary fs-2 d-flex justify-content-center gap-4 mt-3">
+    <div class="fs-2 text-secondary d-flex justify-content-center gap-4 mt-3">
       <i class="bi bi-bar-chart-steps text-info"></i>
-        <i class="bi bi-bar-chart-fill "></i>
-        <i class="bi bi-circle-fill"></i>
-        <i class="bi bi-dash-lg"></i>
-        <i class="bi bi-graph-up-arrow"></i>
+      <i class="bi bi-bar-chart-fill "></i>
+      <i class="bi bi-circle-fill"></i>
+      <i class="bi bi-dash-lg"></i>
+      <i class="bi bi-graph-up-arrow"></i>
     </div>
 
     <!-- Tools -->
-    <div class="d-flex m-2 ">
+    <div class="d-flex m-2">
       <!-- Buttons -->
       <div class="d-flex gap-2 col-4 m-0">
         <button 
@@ -50,84 +49,51 @@
           data-bs-toggle="modal" 
           data-bs-target="#modal"
         >
-          <i class="bi bi-plus-lg "><span class="d-sm-inline d-none">Add</span></i>
+          <i class="bi bi-plus-lg ">
+            <span class="d-sm-inline d-none">Add</span>
+          </i>
         </button>
-        <button class="btn btn-sm btn-secondary m-0">
-          <i class="bi bi-gear-fill"></i>
+        <button class="btn btn-sm btn-danger m-0" id="delete">
+          <i class="bi bi-trash3-fill"></i>
         </button>
         <button class="btn btn-sm btn-secondary m-0">
           <i class="bi bi-fonts"></i>
         </button>
-        <button class="btn btn-sm btn-danger m-0">
-          <i class="bi bi-trash3-fill"></i>
-        </button>
       </div>
-      <!-- Modal -->
-      <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title text-success fw-bold fs-5" id="exampleModalLabel">
-                <i class="bi bi-plus-lg ">Add Data</i>
-              </h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <div class="mb-3"> 
-                <label for="recipient-name" class="col-form-label fw-bold text-secondary">
-                  Data Name
-                </label>
-                <input type="text" class="form-control" id="dataName" placeholder="name...">
-              </div>
-              <div class="mb-3 col-3">
-                <label for="recipient-name" class="col-form-label fw-bold text-secondary">
-                  Data Number
-                </label>
-                <input type="text" class="form-control" id="dataNumber" placeholder="number...">
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="addData">
-                Save
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      
       <!-- Title -->
       <div class="text-center col-8">
         <p class="fs-4 text-dark m-0">Title</p>
       </div>
     </div>
-    
-    <!-- Toggle1 -->
-    <div class="d-flex mt-4 m-2">
-      <!-- items &  AppendChild -->
-      <div class="col-4" id="child-item"> 
-        <!-- it 1 -->
-        <div id="item-1" class="d-flex fw-bold my-2 h-20">
-          <div id="pick-1" class="bg-warning rounded pick"></div>
-          <div id="row-1" class="d-flex text-secondary fix-txt" >
-            <p id="number-1" class="mx-2"> 80 </p>
-            <p id="name-2" class="fst-italic fw-light"> Children </p>
-          </div>
-        </div>
-        <!-- it 2 -->
-        <div id="item-2" class="d-flex fw-bold my-2 h-20">
-          <div id="pick-2" class="bg-success rounded pick" ></div>
-          <div id="row-2" class="d-flex text-secondary fix-txt">
-            <p id="number-2" class="mx-2"> 40 </p>
-            <p id="name-2" class="fst-italic fw-light"> Adults </p>
+
+    <!-- Vue.js show datas -->
+    <div id="dataJson" class="d-flex mt-4 m-2">
+      <!-- items -->
+      <div class="col-4">
+        <div v-for="data in datas" :key="data.id" :id="'item-' + data.id" class="d-flex fw-bold my-2 h-20">
+          <div :id="'pick-' + data.id" :class="[data.color, 'rounded', 'pick']"></div>
+          <div :id="'row-' + data.id" class="d-flex text-secondary fix-txt">
+            <p :id="'value-' + data.id" class="mx-2">{{ data.value }}</p>
+            <p :id="'name-' + data.id" class="fst-italic fw-light">{{ data.name }}</p>
           </div>
         </div>
       </div>
-      
-      <!-- Graph AppendChild-->
-      <div id="child-graph" class="col-8"> 
-        <div id="graph-1" class="bg-warning rounded-end my-2"></div>
-        <div id="graph-2" class="bg-success rounded-end my-2"></div>
+      <!-- Graphs -->
+      <div class="col-8">
+        <div 
+          v-for="data in datas" 
+          :key="data.id" 
+          :id="'graph-' + data.id" 
+          :class="[data.color,'rounded-end', 'my-2']"
+        >
+        </div>
       </div>
     </div>
+
+    <!-- Modal imported -->
+    <div id="_modal"></div>
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="index.js"></script>
   </body>
 </html>
