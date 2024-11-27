@@ -1,36 +1,15 @@
-#graph-1 {
-  width:  200px;
-  height: 20px;
-}
-#graph-2 {
-  width:  125px;
-  height: 20px;
-}
-#graph-3 {
-  width:  125px;
-  height: 20px;
-}
+#graph-1 { width:  200px; }
+#graph-2 { width:  125px; }
+#graph-3 { width:  125px;height: 20px; }
 
-.pick {
-  width:  20px ;
-  height: 20px;
-}
+.w-20 { width:  20px; }
+.h-20{ height: 20px;}
 
-.h-20{
-  height: 20px;
-}
+.fix-txt{ margin-top: -3px; }
 
-.fix-txt{
-  margin-top: -3px;
-}
+.dropdown-item { text-align: center; }
 
-.dropdown-item {
-  text-align: center;
-}
-
-.dropdown-item:hover {
-  opacity: 0.8;
-}
+.dropdown-item:hover { opacity: 0.8; }
 
 /* light */
 .text-primary-light { color: #b3d7ff !important; }
