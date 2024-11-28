@@ -29,7 +29,15 @@
     </nav>
 
     <!-- Title -->
-    <h1 class="fw-bold text-secondary text-center mt-" id="title">EasyGraph</h1>
+    <h1 class="fw-bold text-secondary text-center" id="title">EasyGraph</h1>
+        <!-- Modal Structure -->
+        <div id="myModal" class="modal1">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Modal Title</h2>
+            <p>Some content inside the modal.</p>
+          </div>
+        </div>
 
     <!-- Models -->
     <div class="fs-2 text-secondary d-flex justify-content-center gap-4 mt-3">
@@ -44,21 +52,16 @@
     <div class="d-flex m-2">
       <!-- Buttons -->
       <div class="d-flex gap-2 col-4 m-0">
-        <button 
-          class="btn btn-sm btn-success m-0" 
-          type="button" 
-          data-bs-toggle="modal" 
-          data-bs-target="#modal"
-        >
+        <button id="addToggle" class="btn btn-sm btn-success m-0" type="button" >
           <i class="bi bi-plus-lg ">
             <span class="d-sm-inline d-none">Add</span>
           </i>
         </button>
         <button class="btn btn-sm btn-danger m-0" id="delete">
-          <i class="bi bi-trash3-fill"></i>
+          <i class="bi bi-trash3-fill"></i> <!-- delete -->
         </button>
         <button class="btn btn-sm btn-secondary m-0">
-          <i class="bi bi-fonts"></i>
+          <i class="bi bi-fonts"></i> <!-- title-->
         </button>
       </div>
       
@@ -68,15 +71,72 @@
       </div>
     </div>
 
+    <!-- toggle add -->
+    <div id="addTarget" class="hidden">
+      <div class="d-flex justify-content-center gap-2 mx-2">
+        <div class="col-4">
+          <input id="addName" type="text" class="form-control"  placeholder="Name..."/>
+        </div>
+        <div class="col-2">
+          <input id="addValue" type="text" class="form-control"  placeholder="Value..."/>
+        </div>
+        <div>
+          <select id="addSelect" class="form-select fw-bold" >
+            <option selected disabled hidden>color</option>
+            <option id="add-0" value="0" class="text-success">Success</option>
+            <option id="add-1" value="1" class="text-primary">Primary</option>
+            <option id="add-2" value="2" class="text-info">Info</option>
+            <option id="add-3" value="3" class="text-warning">Warning</option>
+            <option id="add-4" value="4" class="text-danger">Danger</option>
+          </select>
+        </div>
+        <div class="addColor border rounded rounded-5"></div>
+        <button id="addData" class="btn btn-success m-0" type="button">          
+          <i class="bi bi-check-lg">
+          <span class="d-sm-inline d-none">ok</span>
+        </i></button>
+      </div>
+    </div>
+
+    <!-- toggle edit -->
+    <div id="editTarget" class="">
+      <div class="d-flex justify-content-center gap-2 mx-2">
+        <div class="col-4">
+          <input id="dataName" type="text" class="form-control"  placeholder="Name..."/>
+        </div>
+        <div class="col-2">
+          <input id="dataValue" type="text" class="form-control"  placeholder="Value..."/>
+        </div>
+        <div>
+          <select id="selectMenu" class="form-select fw-bold" >
+            <option selected disabled hidden>color</option>
+            <option id="edit-0" value="0" class="text-success">Success</option>
+            <option id="edit-1" value="1" class="text-primary">Primary</option>
+            <option id="edit-2" value="2" class="text-info">Info</option>
+            <option id="edit-3" value="3" class="text-warning">Warning</option>
+            <option id="edit-4" value="4" class="text-danger">Danger</option>
+          </select>
+        </div>
+        <div class="editColor border rounded rounded-5"></div>
+        <button id="editData" class="btn btn-success m-0" type="button">          
+          <i class="bi bi-check-lg">
+          <span class="d-sm-inline d-none">ok</span>
+        </i></button>
+      </div>
+    </div>
+
     <!-- Vue.js show datas -->
     <div id="dataJson" class="d-flex mt-4 m-2">
       <!-- items -->
       <div class="col-4">
         <div 
           v-for="data in datas" 
-          :key="data.id" 
+          :key="data.id"
           :id="'item-' + data.id" 
-          class="d-flex fw-bold my-2 h-20"
+          class="pointer d-flex fw-bold my-2 h-20"
+          @click="editItem(data)" 
+          data-bs-toggle="modal" 
+          data-bs-target="#modalEdit"
         >
           <div :id="'pick-' + data.id" :class="[data.color, 'rounded', 'w-20']"></div>
           <div :id="'row-' + data.id" class="d-flex text-secondary fix-txt">
@@ -98,7 +158,7 @@
     </div>
 
     <!-- Modal imported -->
-    <div id="_modal"></div>
+    <!-- <div id="_modalAdd"></div> -->
     
     <script src="index.js"></script>
   </body>
