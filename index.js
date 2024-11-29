@@ -1,14 +1,6 @@
-// Gestion data from localStorage
-const datas = JSON.parse(localStorage.getItem("datas")) || [];
+// data from localStorage
+const datas = JSON.parse( localStorage.getItem("datas")) || [];
 const app = Vue.createApp({ data() { return { datas } },
-  methods: { saveData() {
-      localStorage.setItem("datas", JSON.stringify(this.datas));
-    },
-    addData(newData) {
-      this.datas.push(newData); // add
-      this.saveData(); // save
-    },
-  },
 }).mount("#dataJson");
 
 // color list
@@ -23,14 +15,32 @@ for (let i = 0; i < colors.length; i++) {
         choice.classList.add(colors[i]); 
     });
 }
-// addToggle 
-let addToggle = document.getElementById("addToggle")
-addToggle.addEventListener("click", () => {
+// select color : edit
+for (let i = 0; i < colors.length; i++) {
+  let optionBtn = document.getElementById("edit-" + i);
+  optionBtn.addEventListener("click", function () {
+    let choice = document.querySelector("#editChoiceColor");
+      choice.classList.remove(...colors); 
+      choice.classList.add(colors[i]); 
+  });
+}
+
+// add show
+let addShow = document.getElementById("addShow")
+addShow.addEventListener("click", () => {
   let addTarget = document.getElementById("addTarget");
-    addTarget.classList.toggle("show");
-    addTarget.classList.toggle("hidden");
+  addTarget.classList.remove("hidden");
+    addTarget.classList.add("show");
 })
-// add data
+// add  close
+let addClose = document.getElementById("addClose")
+addClose.addEventListener("click", () => {
+  let addTarget = document.getElementById("addTarget");
+    addTarget.classList.remove("show");
+    addTarget.classList.add("hidden");
+})
+
+// handleAdd
 let addData = document.getElementById("addData");
 addData.addEventListener("click", function () {
   const addName = document.getElementById("addName").value;
@@ -43,62 +53,75 @@ addData.addEventListener("click", function () {
       value: addValue, 
       color: colors[addSelect]
     };
-    app.addData(newData);
-    document.getElementById("addName").value = ""; // Reset name
-    document.getElementById("addValue").value = ""; // Reset value
-    document.getElementById("addSelect").value = ""; // Reset color
-    addTarget.classList.toggle("hidden"); // hidde toggle
+    // push and save data
+    datas.push(newData); 
+    localStorage.setItem("datas", JSON.stringify(app.datas)); 
+    
+    // reset form
+    document.getElementById("addName").value = ""; 
+    document.getElementById("addValue").value = ""; 
+    document.getElementById("addSelect").value = ""; 
+    addTarget.classList.toggle("hidden");             
+    
+    loadData()
+
   } else {
     alert("you forgot somthing");
   }
 });
 
-// Select color : edit
-for (let i = 0; i < colors.length; i++) {
-  let optionBtn = document.getElementById("edit-" + i);
-    optionBtn.addEventListener("click", function () {
-      let choice = document.querySelector("#editChoiceColor");
-        choice.classList.remove(...colors); 
-        choice.classList.add(colors[i]); 
-    });
-}
-// editToggle 
-let currentEditingId = null; 
-for (let i = 1; i <= datas.length; i++) {
-  let editToggle = document.getElementById("item-" + i);
-  editToggle.addEventListener("click", () => {
-    const data = datas[i - 1]; 
-    currentEditingId = data.id; 
+// edit close
+let editClose = document.getElementById("editClose")
+editClose.addEventListener("click", () => {
+  let editTarget = document.getElementById("editTarget");
+    editTarget.classList.remove("show");
+    editTarget.classList.add("hidden");
+})
 
-    // Pré-remplir les champs du formulaire
+// handleEdit
+for (let i = 0; i < datas.length; i++) {
+  let editToggle = document.getElementById("item-" + (i + 1));
+  editToggle.addEventListener("click", () => {
+    console.log("editToggle : ", editToggle);
+    const data = datas[i]; 
+    // prefill form
     document.getElementById("editName").value = data.name;
     document.getElementById("editValue").value = data.value;
-    document.getElementById("editSelect").value = data.color;
-
-    // Affiche le formulaire d'édition
+    document.getElementById("editSelect").value = data.id;
+    // remove all color
+    for (let j = 0; j < colors.length; j++) {
+      if (colors[j] !== data.color) {
+        document.getElementById("editChoiceColor").classList.remove(colors[j]);
+      } else {
+        document.getElementById("editChoiceColor").classList.add(colors[j]);
+      }
+    }
+    
+    console.log("id : ", data.id , "color : ", data.color); 
+    
+    // show edit
     let editTarget = document.getElementById("editTarget");
     editTarget.classList.remove("hidden");
     editTarget.classList.add("show");
+
+    // handleUpdate
+    let editData = document.getElementById("editData");
+    editData.onclick = function () {
+      datas[i].name = document.getElementById("editName").value;
+      datas[i].value = document.getElementById("editValue").value;
+      datas[i].color = colors[document.getElementById("editSelect").value];
+      
+      // save data
+      localStorage.setItem("datas", JSON.stringify(app.datas)); 
+
+      editTarget.classList.add("hidden"); 
+      loadData()
+    };
   });
 }
-// edit data
-let editData = document.getElementById("editData");
-editData.addEventListener("click", function () {
-  const editName = document.getElementById("editName").value;
-  const editValue = document.getElementById("editValue").value;
-  const editSelect = document.getElementById("editSelect").value;
-  // Update element
-  const index = datas.findIndex(data => data.id === currentEditingId);
-  datas[index].name = editName;
-  datas[index].value = editValue;
-  datas[index].color = colors[editSelect];
-  // save to localStorage
-  localStorage.setItem("datas", JSON.stringify(datas));
-  document.getElementById("editTarget").classList.add("hidden");
-  loadData();
-});
 
+  
 // refreshing datas
 function loadData() {
   app.datas = JSON.parse(localStorage.getItem("datas")) || [];
-}
+}  

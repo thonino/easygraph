@@ -53,7 +53,7 @@
     <div class="d-flex m-2">
       <!-- Buttons -->
       <div class="d-flex gap-2 col-4 m-0">
-        <button id="addToggle" class="btn btn-sm btn-success m-0" type="button" >
+        <button id="addShow" class="btn btn-sm btn-success m-0" type="button" >
           <i class="bi bi-plus-lg ">
             <span class="d-sm-inline d-none">Add</span>
           </i>
@@ -72,10 +72,17 @@
       </div>
     </div>
 
-    <!-- toggle add -->
+    <!-- add form-->
     <div id="addTarget" class="hidden">
+      <p class="fs-4 text-center text-success"> 
+        <i class="bi bi-plus-lg"></i>
+        Add
+      </p>
       <div class="d-flex justify-content-center gap-2 mx-2">
-        <div class="col-4">
+        <button id="addClose" class="btn m-0 p-0">
+          <i class="bi bi-x-lg"></i>
+        </button>
+        <div class="col-3">
           <input id="addName" type="text" class="form-control"  placeholder="Name..."/>
         </div>
         <div class="col-2">
@@ -99,10 +106,17 @@
       </div>
     </div>
 
-    <!-- toggle edit -->
+    <!-- edit form -->
     <div id="editTarget" class="hidden">
+      <p class="fs-4 text-center text-success"> 
+        <i class="bi bi-pencil-fill fs-5"></i>
+        Edit 
+      </p>
       <div class="d-flex justify-content-center gap-2 mx-2">
-        <div class="col-4">
+        <button id="editClose" class="btn m-0 p-0">
+          <i class="bi bi-x-lg"></i>
+        </button>
+        <div class="col-3">
           <input id="editName" type="text" class="form-control"  placeholder="Name..."/>
         </div>
         <div class="col-2">
@@ -154,6 +168,5 @@
         </div>
       </div>
     </div>
-    
   </body>
 </html>
