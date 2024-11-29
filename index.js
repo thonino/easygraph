@@ -24,6 +24,56 @@ for (let i = 0; i < colors.length; i++) {
       choice.classList.add(colors[i]); 
   });
 }
+// edit close
+let editClose = document.getElementById("editClose")
+editClose.addEventListener("click", () => {
+  let editTarget = document.getElementById("editTarget");
+    editTarget.classList.remove("show");
+    editTarget.classList.add("hidden");
+})
+
+// Fonction pour lier les événements d'édition
+  for (let i = 0; i < datas.length; i++) {
+    let editToggle = document.getElementById("item-" + (i + 1));
+    if (editToggle) {  // Vérifie que l'élément existe
+      editToggle.addEventListener("click", () => {
+        const data = datas[i];
+        // Pré-remplir le formulaire
+        document.getElementById("editName").value = data.name;
+        document.getElementById("editValue").value = data.value;
+        document.getElementById("editSelect").value = data.id;
+
+        // Supprimer toutes les couleurs et ajouter la bonne
+        for (let j = 0; j < colors.length; j++) {
+          const choiceColor = document.getElementById("editChoiceColor");
+          if (colors[j] !== data.color) {
+            choiceColor.classList.remove(colors[j]);
+          } else {
+            choiceColor.classList.add(colors[j]);
+          }
+        }
+
+        // Afficher la section d'édition
+        let editTarget = document.getElementById("editTarget");
+        editTarget.classList.remove("hidden");
+        editTarget.classList.add("show");
+
+        // Gestionnaire de mise à jour
+        let editData = document.getElementById("editData");
+        editData.onclick = function () {
+          datas[i].name = document.getElementById("editName").value;
+          datas[i].value = document.getElementById("editValue").value;
+          datas[i].color = colors[document.getElementById("editSelect").value];
+
+          // Sauvegarder et recharger les données
+          localStorage.setItem("datas", JSON.stringify(datas));
+          loadData();
+
+          editTarget.classList.add("hidden");
+        };
+      });
+    }
+  }
 
 // add show
 let addShow = document.getElementById("addShow")
@@ -32,7 +82,7 @@ addShow.addEventListener("click", () => {
   addTarget.classList.remove("hidden");
     addTarget.classList.add("show");
 })
-// add  close
+// add close
 let addClose = document.getElementById("addClose")
 addClose.addEventListener("click", () => {
   let addTarget = document.getElementById("addTarget");
@@ -53,75 +103,25 @@ addData.addEventListener("click", function () {
       value: addValue, 
       color: colors[addSelect]
     };
-    // push and save data
-    datas.push(newData); 
-    localStorage.setItem("datas", JSON.stringify(app.datas)); 
+    // Push et sauvegarder les données
+    datas.push(newData);
+    localStorage.setItem("datas", JSON.stringify(datas)); 
     
-    // reset form
+    // Réinitialiser le formulaire
     document.getElementById("addName").value = ""; 
     document.getElementById("addValue").value = ""; 
     document.getElementById("addSelect").value = ""; 
+    let addTarget = document.getElementById("addTarget");
     addTarget.classList.toggle("hidden");             
     
-    loadData()
-
+    loadData();
+    
   } else {
-    alert("you forgot somthing");
+    alert("you forgot something");
   }
 });
 
-// edit close
-let editClose = document.getElementById("editClose")
-editClose.addEventListener("click", () => {
-  let editTarget = document.getElementById("editTarget");
-    editTarget.classList.remove("show");
-    editTarget.classList.add("hidden");
-})
-
-// handleEdit
-for (let i = 0; i < datas.length; i++) {
-  let editToggle = document.getElementById("item-" + (i + 1));
-  editToggle.addEventListener("click", () => {
-    console.log("editToggle : ", editToggle);
-    const data = datas[i]; 
-    // prefill form
-    document.getElementById("editName").value = data.name;
-    document.getElementById("editValue").value = data.value;
-    document.getElementById("editSelect").value = data.id;
-    // remove all color
-    for (let j = 0; j < colors.length; j++) {
-      if (colors[j] !== data.color) {
-        document.getElementById("editChoiceColor").classList.remove(colors[j]);
-      } else {
-        document.getElementById("editChoiceColor").classList.add(colors[j]);
-      }
-    }
-    
-    console.log("id : ", data.id , "color : ", data.color); 
-    
-    // show edit
-    let editTarget = document.getElementById("editTarget");
-    editTarget.classList.remove("hidden");
-    editTarget.classList.add("show");
-
-    // handleUpdate
-    let editData = document.getElementById("editData");
-    editData.onclick = function () {
-      datas[i].name = document.getElementById("editName").value;
-      datas[i].value = document.getElementById("editValue").value;
-      datas[i].color = colors[document.getElementById("editSelect").value];
-      
-      // save data
-      localStorage.setItem("datas", JSON.stringify(app.datas)); 
-
-      editTarget.classList.add("hidden"); 
-      loadData()
-    };
-  });
-}
-
-  
-// refreshing datas
+// Fonction pour recharger les données
 function loadData() {
   app.datas = JSON.parse(localStorage.getItem("datas")) || [];
-}  
+}
