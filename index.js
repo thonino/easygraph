@@ -74,9 +74,7 @@ addData.addEventListener("click", function () {
     addTarget.classList.toggle("hidden");
 
     loadData();
-  } else {
-    alert("you forgot something");
-  }
+  } else { alert("you forgot something"); }
 });
 
 // HandleEdit
@@ -90,12 +88,12 @@ function attachEditEvent() {
         document.getElementById("editValue").value = data.value;
         document.getElementById("editSelect").value = colors.indexOf(data.color);
 
-        // Apply the correct color
+        // reset and apply true color
         let choiceColor = document.getElementById("editChoiceColor");
         choiceColor.classList.remove(...colors);
         choiceColor.classList.add(data.color);
 
-        // Show edit section
+        // Show edit 
         let editTarget = document.getElementById("editTarget");
         editTarget.classList.remove("hidden");
         editTarget.classList.add("show");
@@ -122,10 +120,7 @@ function attachEditEvent() {
 // Function to refresh datas and attach events
 function loadData() {
   app.datas = JSON.parse(localStorage.getItem("datas")) || [];
-  Vue.nextTick(() => {
-    attachEditEvent();
-  });
+  Vue.nextTick(() => { attachEditEvent();  });
 }
 
-// Initial load
-loadData();
+// so let's comple all of function !
