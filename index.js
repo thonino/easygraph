@@ -123,4 +123,5 @@ function loadData() {
   Vue.nextTick(() => { attachEditEvent();  });
 }
 
-// so let's comple all of function !
+// to do list 
+// 1 - need to understand Vue.js
