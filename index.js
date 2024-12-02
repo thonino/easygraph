@@ -1,9 +1,30 @@
-// Data from localStorage
-const datas = JSON.parse(localStorage.getItem("datas")) || [];
-const app = Vue.createApp({ data() { return { datas }; }, }).mount("#dataJson");
-
 // Color list
 let colors = ["bg-success", "bg-primary", "bg-info", "bg-warning", "bg-danger"];
+
+// Data from localStorage
+const datas = JSON.parse(localStorage.getItem("datas")) || [];
+
+const app = Vue.createApp({
+  data() {
+    return { datas: JSON.parse(localStorage.getItem("datas")) || [], colors };
+  },
+  computed: {
+    totalValues() {
+      return this.datas.reduce((sum, data) => sum + Number(data.value), 0);
+    }
+  },
+  methods: {
+    getPercentage(data) {
+      if (this.totalValues === 0) return 0; 
+      return Math.round((data.value / this.totalValues) * 100);
+    }
+  },
+  watch: {
+    datas(newDatas) {
+      localStorage.setItem("datas", JSON.stringify(newDatas));
+    }
+  }
+}).mount("#dataJson");
 
 // Select color: add
 for (let i = 0; i < colors.length; i++) {
@@ -73,8 +94,10 @@ addData.addEventListener("click", function () {
     let addTarget = document.getElementById("addTarget");
     addTarget.classList.toggle("hidden");
 
-    loadData();
-  } else { alert("you forgot something"); }
+    loadData(); 
+  } else {
+    alert("you forgot something");
+  }
 });
 
 // HandleEdit
@@ -87,17 +110,14 @@ function attachEditEvent() {
         document.getElementById("editName").value = data.name;
         document.getElementById("editValue").value = data.value;
         document.getElementById("editSelect").value = colors.indexOf(data.color);
-
-        // reset and apply true color
+        // Apply the correct color
         let choiceColor = document.getElementById("editChoiceColor");
         choiceColor.classList.remove(...colors);
         choiceColor.classList.add(data.color);
-
-        // Show edit 
+        // Show edit section
         let editTarget = document.getElementById("editTarget");
         editTarget.classList.remove("hidden");
         editTarget.classList.add("show");
-
         // Handle update
         let editData = document.getElementById("editData");
         editData.onclick = function () {
@@ -105,10 +125,10 @@ function attachEditEvent() {
           datas[index].value = document.getElementById("editValue").value;
           datas[index].color =
             colors[document.getElementById("editSelect").value];
-
+          
           // Save updated data
           localStorage.setItem("datas", JSON.stringify(datas));
-          loadData();
+          loadData(); 
 
           editTarget.classList.add("hidden");
         };
@@ -116,12 +136,17 @@ function attachEditEvent() {
     }
   });
 }
-
-// Function to refresh datas and attach events
-function loadData() {
-  app.datas = JSON.parse(localStorage.getItem("datas")) || [];
-  Vue.nextTick(() => { attachEditEvent();  });
+// Fonction pour recalculer les pourcentages
+function updatePercentages() {
+  let totalValues = datas.reduce((sum, data) => sum + Number(data.value), 0);
+  percentTab = datas.map(data => Math.round((data.value / totalValues) * 100));
 }
 
-// to do list 
-// 1 - need to understand Vue.js
+// Function to refresh datas, attach events, and update percentages
+function loadData() {
+  app.datas = JSON.parse(localStorage.getItem("datas")) || [];
+  updatePercentages();
+  Vue.nextTick(() => {  attachEditEvent(); });
+}
+
+loadData(); // Initial load
