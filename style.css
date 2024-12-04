@@ -4,6 +4,7 @@
 .wh-40 { width:  40px; height: 40px; }
 
 .mt-fix{ margin-top: -3px; }
+.mt-fix-5 { margin-top: 6px;}
 
 .show{ display: block; }
 .hidden{ display: none ; }
@@ -65,4 +66,6 @@ Info : #0dcaf0
 Light : #f8f9fa
 Dark : #212529 
 */
+
+
 

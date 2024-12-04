@@ -150,3 +150,9 @@ function loadData() {
 }
 
 loadData(); // Initial load
+
+// Add Delete item
+// Add up and down item
+// Add handle Title
+
+// other model
