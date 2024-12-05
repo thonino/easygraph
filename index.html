@@ -45,31 +45,85 @@
     <div class="d-flex m-2">
       <!-- Buttons -->
       <div class="d-flex gap-2 col-4 m-0">
-        <button id="addShow" class="btn btn-sm btn-success m-0" type="button">
+        <button id="addShow" class="btn btn-success m-0" type="button">
           <i class="bi bi-plus-lg ">
             <span class="d-sm-inline d-none">Add</span>
           </i>
         </button>
-        <button class="btn btn-sm btn-danger m-0" id="delete">
+        <button class="btn btn-danger m-0" id="delete">
           <i class="bi bi-trash3-fill"></i> <!-- delete -->
         </button>
       </div>
       
       <!-- Title -->
-      <div class="text-center col-8">
-        <p class="fs-4 text-dark m-0">Title</p>
+      <div id="titleToggle" class="col-8">
+        <p id="titleText" class="fs-5 m-0 fw-bold">Title</p>
+      </div>
+      <div id="editToggle" class="col-8 d-none">
+        <div class="d-flex align-items-center gap-2">
+          <input 
+            id="titleInput" 
+            type="text" 
+            class="form-control m-0" 
+            placeholder="Edit title"
+          />
+          <button id="titleSaveBtn" class="btn btn-success">
+            <i class="bi bi-check-lg"></i>
+          </button>
+          <div id="titleCancelBtn" class="pointer">
+            <i class="bi bi-x-lg fs-4 text-danger"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Vue.js show datas -->
+    <div class="show">
+      <div id="dataJson" class="d-flex mt-4 m-2">
+
+        <!-- Items -->
+        <div class="col-4">
+          <div 
+            v-for="data in datas" 
+            :key="data.id"
+            :id="'item-' + data.id" 
+            class="pointer d-flex fw-bold my-2 h-20"
+          >
+            <div :id="'pick-'+data.id" :class="[data.color, 'rounded', 'w-20']"></div>
+            <div :id="'row-'+data.id" class="d-flex text-secondary mt-fix-3">
+              <p :id="'value-'+data.id" class="mx-2">{{ data.value }}</p>
+              <p :id="'name-'+data.id" class="fst-italic fw-light">{{ data.name }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Graphs -->
+        <div class="col-8">
+          <div 
+            v-for="data in datas" 
+            :key="data.id" 
+            class="d-flex gap-2 p-0 my-2 h-20"
+          >
+          <div 
+            :id="'graph-' + data.id" 
+            :class="[data.color,'rounded-end', ]"
+            :style="{ width: getPercentage(data) + '%' }"
+          >
+          </div>
+            <p class="mt-fix-3">{{ getPercentage(data) + '%' }}</p>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- Add form-->
     <div id="addTarget" class="hidden">
-      <div class="d-flex justify-content-center  mb-2">
+      <div class="d-flex justify-content-center mb-2">
         <div></div>
         <p class="fs-4 fw-bold text-center text-success-dark m-0 ms-2"> 
           Add
         </p>
         <button id="addClose" class="btn text-danger fw-bold d-flex m-0 py-0 ">
-          <i class="bi bi-x-lg fs-4"> </i> <span class="mt-fix-5">Close </span>
+          <i class="bi bi-x-lg fs-4 "> </i> <span class="m-0 mt-1">Close </span>
         </button>
       </div>
       <div class="d-flex justify-content-center gap-2 mx-2">
@@ -105,12 +159,12 @@
           Edit 
         </p>
         <button id="editClose" class="btn text-danger fw-bold d-flex m-0 py-0 ">
-          <i class="bi bi-x-lg fs-4"> </i> <span class="mt-fix-5">Close </span>
+          <i class="bi bi-x-lg fs-4"> </i> <span class="m-0 mt-1">Close </span>
         </button>
       </div>
       <div class="d-flex justify-content-center gap-2 mx-2">
-        <div class="mt-fix2">
-          <button id="delete" class="btn text-danger m-0 px-0">
+        <div class="mt-fix-3">
+          <button id="deleteData" class="btn text-danger m-0 px-0">
             <i class="bi bi-trash3-fill fs-5 "> </i> <!-- delete -->
           </button>
         </div>
@@ -136,44 +190,6 @@
           <span class="d-sm-inline d-none">ok</span>
         </i></button>
       </div>
-    </div>
-
-    <!-- Vue.js show datas -->
-    <div class="show">
-      <div id="dataJson" class="d-flex mt-4 m-2">
-        <!-- Items -->
-        <div class="col-4">
-          <div 
-            v-for="data in datas" 
-            :key="data.id"
-            :id="'item-' + data.id" 
-            class="pointer d-flex fw-bold my-2 h-20"
-          >
-            <div :id="'pick-'+data.id" :class="[data.color, 'rounded', 'w-20']"></div>
-            <div :id="'row-'+data.id" class="d-flex text-secondary mt-fix">
-              <p :id="'value-'+data.id" class="mx-2">{{ data.value }}</p>
-              <p :id="'name-'+data.id" class="fst-italic fw-light">{{ data.name }}</p>
-            </div>
-          </div>
-        </div>
-        <!-- Graphs -->
-        <div class="col-8">
-          <div 
-            v-for="data in datas" 
-            :key="data.id" 
-            class="d-flex gap-2 p-0 my-2 h-20"
-          >
-          <div 
-            :id="'graph-' + data.id" 
-            :class="[data.color,'rounded-end', ]"
-            :style="{ width: getPercentage(data) + '%' }"
-          >
-          </div>
-            <p class="mt-fix">{{ getPercentage(data) + '%' }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
 
   </body>
 </html>

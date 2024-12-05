@@ -118,24 +118,37 @@ function attachEditEvent() {
         let editTarget = document.getElementById("editTarget");
         editTarget.classList.remove("hidden");
         editTarget.classList.add("show");
+        // Handle delete
+        let deleteData = document.getElementById("deleteData");
+        if(deleteData){
+          deleteData.onclick = function() {
+            let newTab = datas.filter((data) => data.id !== datas[index].id)
+            localStorage.setItem("datas", JSON.stringify(newTab));
+            loadData(); 
+            editTarget.classList.add("hidden");
+          }
+        }
         // Handle update
         let editData = document.getElementById("editData");
-        editData.onclick = function () {
-          datas[index].name = document.getElementById("editName").value;
-          datas[index].value = document.getElementById("editValue").value;
-          datas[index].color =
-            colors[document.getElementById("editSelect").value];
-          
-          // Save updated data
-          localStorage.setItem("datas", JSON.stringify(datas));
-          loadData(); 
-
-          editTarget.classList.add("hidden");
-        };
+        if(editData){
+          editData.onclick = function () {
+            datas[index].name = document.getElementById("editName").value;
+            datas[index].value = document.getElementById("editValue").value;
+            datas[index].color =
+              colors[document.getElementById("editSelect").value];
+            
+            // Save updated data
+            localStorage.setItem("datas", JSON.stringify(datas));
+            loadData(); 
+  
+            editTarget.classList.add("hidden");
+          };
+        }
       };
     }
   });
 }
+
 // Fonction pour recalculer les pourcentages
 function updatePercentages() {
   let totalValues = datas.reduce((sum, data) => sum + Number(data.value), 0);
@@ -151,8 +164,52 @@ function loadData() {
 
 loadData(); // Initial load
 
-// Add Delete item
-// Add up and down item
-// Add handle Title
 
-// other model
+// Handle Title
+const titleText = document.getElementById('titleText');
+const titleInput = document.getElementById('titleInput');
+const showTitle = document.getElementById('titleToggle');
+const editing = document.getElementById('editToggle');
+const titleSave = document.getElementById('titleSaveBtn');
+const titleCancel = document.getElementById('titleCancelBtn');
+
+// Title default
+titleText.textContent = localStorage.getItem('dataTitle') || 'Title Default';
+
+// Toggle
+const toggleFunction = (show, hide) => {
+  show.classList.remove("d-none");
+  hide.classList.add("d-none");
+};
+
+// Show Input
+showTitle.addEventListener('click', () => {
+  titleInput.value = titleText.textContent;
+  toggleFunction(editing, showTitle);
+  console.log("Show Input");
+  
+});
+
+// Save New title
+titleSave.addEventListener("click", () => {
+  const newTitle = titleInput.value.trim();
+  if (newTitle) {
+    localStorage.setItem('dataTitle', newTitle);
+    titleText.textContent = newTitle;
+  }
+  toggleFunction(showTitle, editing);
+});
+
+// Cancel
+titleCancel.addEventListener("click", () => {
+  toggleFunction(showTitle, editing);
+});
+
+
+// SOUCIS AVEC LES INDEX
+[
+  {"id":1,"name":"dfsdf","value":"32452","color":"bg-success"},
+  {"id":2,"name":"4525245","value":"24245","color":"bg-warning"},
+  {"id":4,"name":"34543","value":"43543","color":"bg-danger"},
+  {"id":5,"name":"43543","value":"43534","color":"bg-primary"}
+]

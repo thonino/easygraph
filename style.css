@@ -3,8 +3,8 @@
 .h-20{ height: 20px;}
 .wh-40 { width:  40px; height: 40px; }
 
-.mt-fix{ margin-top: -3px; }
-.mt-fix-5 { margin-top: 6px;}
+.mt-fix-3{ margin-top: -3px; }
+.mt-fix-6{ margin-top: 3px;}
 
 .show{ display: block; }
 .hidden{ display: none ; }
@@ -19,7 +19,6 @@
     padding: 8px;
     cursor: pointer;
   }
-
 
   select {
     padding: 5px;
