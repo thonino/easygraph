@@ -2,7 +2,19 @@
 let colors = ["bg-success", "bg-primary", "bg-info", "bg-warning", "bg-danger"];
 
 // Data from localStorage
-const datas = JSON.parse(localStorage.getItem("datas")) || [];
+let datas = [];
+try {
+  datas = JSON.parse(localStorage.getItem("datas")) || [];
+  if (!Array.isArray(datas)) datas = [];
+} catch (e) {
+  console.error("Invalid or empty localStorage:", e);
+  datas = [];
+  localStorage.setItem("datas", JSON.stringify(datas));
+}
+
+
+
+
 
 const app = Vue.createApp({
   data() {
@@ -100,47 +112,61 @@ addData.addEventListener("click", function () {
   }
 });
 
-// HandleEdit
+// Handle Edit
 function attachEditEvent() {
   datas.forEach((data, index) => {
-    let editToggle = document.getElementById(`item-${data.id}`);
+    const editToggle = document.getElementById(`item-${data.id}`);
+    
     if (editToggle) {
-      editToggle.onclick = function () {
+      editToggle.onclick = () => {
+
         // Pre-fill 
         document.getElementById("editName").value = data.name;
         document.getElementById("editValue").value = data.value;
         document.getElementById("editSelect").value = colors.indexOf(data.color);
-        // Apply the correct color
-        let choiceColor = document.getElementById("editChoiceColor");
+
+        // Apply the selected color
+        const choiceColor = document.getElementById("editChoiceColor");
         choiceColor.classList.remove(...colors);
         choiceColor.classList.add(data.color);
+
         // Show edit section
-        let editTarget = document.getElementById("editTarget");
+        const editTarget = document.getElementById("editTarget");
         editTarget.classList.remove("hidden");
         editTarget.classList.add("show");
-        // Handle delete
-        let deleteData = document.getElementById("deleteData");
-        if(deleteData){
-          deleteData.onclick = function() {
-            let newTab = datas.filter((data) => data.id !== datas[index].id)
-            localStorage.setItem("datas", JSON.stringify(newTab));
-            loadData(); 
-            editTarget.classList.add("hidden");
-          }
-        }
-        // Handle update
-        let editData = document.getElementById("editData");
-        if(editData){
-          editData.onclick = function () {
-            datas[index].name = document.getElementById("editName").value;
-            datas[index].value = document.getElementById("editValue").value;
-            datas[index].color =
-              colors[document.getElementById("editSelect").value];
+
+        // Handle delete action
+        const deleteData = document.getElementById("deleteData");
+        if (deleteData) {
+          deleteData.onclick = () => {
+            const deleteData = datas.filter(item => item.id !== data.id);
+            const newData = deleteData.map((item, index) => ({
+              ...item, id: index + 1 
+            }));
             
+            // updated and Save datas
+            datas = newData; 
+            localStorage.setItem("datas", JSON.stringify(datas));
+            loadData();
+            editTarget.classList.add("hidden");
+          };
+        }
+
+        // Handle update 
+        const editData = document.getElementById("editData");
+        if (editData) {
+          editData.onclick = () => {
+            // Update the data
+            datas[index] = {
+              ...datas[index],
+              name: document.getElementById("editName").value,
+              value: document.getElementById("editValue").value,
+              color: colors[document.getElementById("editSelect").value]
+            };
+
             // Save updated data
             localStorage.setItem("datas", JSON.stringify(datas));
-            loadData(); 
-  
+            loadData();
             editTarget.classList.add("hidden");
           };
         }
@@ -206,10 +232,16 @@ titleCancel.addEventListener("click", () => {
 });
 
 
-// SOUCIS AVEC LES INDEX
+// Datas
 [
-  {"id":1,"name":"dfsdf","value":"32452","color":"bg-success"},
-  {"id":2,"name":"4525245","value":"24245","color":"bg-warning"},
-  {"id":4,"name":"34543","value":"43543","color":"bg-danger"},
-  {"id":5,"name":"43543","value":"43534","color":"bg-primary"}
+  {"id":1,"name":"tutu","value":"32452","color":"bg-success"},
+  {"id":2,"name":"tata","value":"24245","color":"bg-warning"},
+  {"id":3,"name":"toto","value":"43543","color":"bg-danger"},
+  {"id":4,"name":"titi","value":"43534","color":"bg-primary"},
+  {"id":5,"name":"tete","value":"21322","color":"bg-info"},
+  {"id":6,"name":"nini","value":"36786","color":"bg-success"},
+  {"id":7,"name":"nana","value":"25677","color":"bg-warning"},
+  {"id":8,"name":"nunu","value":"34553","color":"bg-danger"},
+  {"id":9,"name":"fafa","value":"23448","color":"bg-primary"},
+  {"id":10,"name":"fifi","value":"12443","color":"bg-info"}
 ]
