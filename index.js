@@ -12,10 +12,6 @@ try {
   localStorage.setItem("datas", JSON.stringify(datas));
 }
 
-
-
-
-
 const app = Vue.createApp({
   data() {
     return { datas: JSON.parse(localStorage.getItem("datas")) || [], colors };
@@ -38,6 +34,39 @@ const app = Vue.createApp({
   }
 }).mount("#dataJson");
 
+// Handle Title
+const titleText = document.getElementById('titleText');
+const titleInput = document.getElementById('titleInput');
+const showTitle = document.getElementById('titleToggle');
+const editing = document.getElementById('editToggle');
+const titleSave = document.getElementById('titleSaveBtn');
+const titleCancel = document.getElementById('titleCancelBtn');
+// Title default
+titleText.textContent = localStorage.getItem('dataTitle') || 'Title Default';
+// Toggle
+const toggleFunction = (show, hide) => {
+  show.classList.remove("d-none");
+  hide.classList.add("d-none");
+};
+// Show Input
+showTitle.addEventListener('click', () => {
+  titleInput.value = titleText.textContent;
+  toggleFunction(editing, showTitle);
+});
+// Save New title
+titleSave.addEventListener("click", () => {
+  const newTitle = titleInput.value.trim();
+  if (newTitle) {
+    localStorage.setItem('dataTitle', newTitle);
+    titleText.textContent = newTitle;
+  }
+  toggleFunction(showTitle, editing);
+});
+// Cancel
+titleCancel.addEventListener("click", () => {
+  toggleFunction(showTitle, editing);
+});
+
 // Select color: add
 for (let i = 0; i < colors.length; i++) {
   let optionBtn = document.getElementById("add-" + i);
@@ -47,7 +76,6 @@ for (let i = 0; i < colors.length; i++) {
     choice.classList.add(colors[i]);
   });
 }
-
 // Select color: edit
 for (let i = 0; i < colors.length; i++) {
   let optionBtn = document.getElementById("edit-" + i);
@@ -57,7 +85,6 @@ for (let i = 0; i < colors.length; i++) {
     choice.classList.add(colors[i]);
   });
 }
-
 // Add show
 let addShow = document.getElementById("addShow");
 addShow.addEventListener("click", () => {
@@ -65,7 +92,6 @@ addShow.addEventListener("click", () => {
   addTarget.classList.remove("hidden");
   addTarget.classList.add("show");
 });
-
 // Add close
 let addClose = document.getElementById("addClose");
 addClose.addEventListener("click", () => {
@@ -73,7 +99,6 @@ addClose.addEventListener("click", () => {
   addTarget.classList.remove("show");
   addTarget.classList.add("hidden");
 });
-
 // Edit close
 let editClose = document.getElementById("editClose");
 editClose.addEventListener("click", () => {
@@ -98,14 +123,13 @@ addData.addEventListener("click", function () {
     // Push and save data
     datas.push(newData);
     localStorage.setItem("datas", JSON.stringify(datas));
-
     // Reset form
     document.getElementById("addName").value = "";
     document.getElementById("addValue").value = "";
     document.getElementById("addSelect").value = "";
     let addTarget = document.getElementById("addTarget");
     addTarget.classList.toggle("hidden");
-
+    // Save
     loadData(); 
   } else {
     alert("you forgot something");
@@ -119,22 +143,18 @@ function attachEditEvent() {
     
     if (editToggle) {
       editToggle.onclick = () => {
-
         // Pre-fill 
         document.getElementById("editName").value = data.name;
         document.getElementById("editValue").value = data.value;
         document.getElementById("editSelect").value = colors.indexOf(data.color);
-
         // Apply the selected color
         const choiceColor = document.getElementById("editChoiceColor");
         choiceColor.classList.remove(...colors);
         choiceColor.classList.add(data.color);
-
         // Show edit section
         const editTarget = document.getElementById("editTarget");
         editTarget.classList.remove("hidden");
         editTarget.classList.add("show");
-
         // Handle delete action
         const deleteData = document.getElementById("deleteData");
         if (deleteData) {
@@ -143,7 +163,6 @@ function attachEditEvent() {
             const newData = deleteData.map((item, index) => ({
               ...item, id: index + 1 
             }));
-
             // updated and Save datas
             datas = newData; 
             localStorage.setItem("datas", JSON.stringify(datas));
@@ -151,7 +170,6 @@ function attachEditEvent() {
             editTarget.classList.add("hidden");
           };
         }
-
         // Handle update 
         const editData = document.getElementById("editData");
         if (editData) {
@@ -163,7 +181,6 @@ function attachEditEvent() {
               value: document.getElementById("editValue").value,
               color: colors[document.getElementById("editSelect").value]
             };
-
             // Save updated data
             localStorage.setItem("datas", JSON.stringify(datas));
             loadData();
@@ -175,14 +192,24 @@ function attachEditEvent() {
   });
 }
 
-// Handle delete
+// Toggle delete
+let deleteBtn = document.getElementById("deleteBtn");
+let deleteBtnTargets = document.querySelectorAll(".deleteBtnTarget");
+deleteBtn.addEventListener("click", () => {
+  // querySelectorAll & forEach => to apply class for all items
+  deleteBtnTargets.forEach( target => {
+    target.classList.toggle("hidden");
+    target.classList.toggle("show");
+  });
+});
+
+// Handle delete Btn
 datas.forEach((data) => {
   const deleteItem = document.getElementById(`deleteItem-${data.id}`);
   if (deleteItem) {
-    deleteItem.onclick = () => {
-      datas = datas.filter(item => item.id !== data.id)
-                    .map((item, index) => ({ ...item, id: index + 1 }));
-      
+    deleteItem.onclick = () => { 
+      datas = datas.filter(item => item.id !== data.id);
+              datas.map((item, index) => ({ ...item, id: index + 1 }));
       // save
       localStorage.setItem("datas", JSON.stringify(datas));
       loadData(); 
@@ -190,8 +217,6 @@ datas.forEach((data) => {
     };
   }
 });
-
-
 
 // Fonction pour recalculer les pourcentages
 function updatePercentages() {
@@ -208,49 +233,7 @@ function loadData() {
 
 loadData(); // Initial load
 
-
-// Handle Title
-const titleText = document.getElementById('titleText');
-const titleInput = document.getElementById('titleInput');
-const showTitle = document.getElementById('titleToggle');
-const editing = document.getElementById('editToggle');
-const titleSave = document.getElementById('titleSaveBtn');
-const titleCancel = document.getElementById('titleCancelBtn');
-
-// Title default
-titleText.textContent = localStorage.getItem('dataTitle') || 'Title Default';
-
-// Toggle
-const toggleFunction = (show, hide) => {
-  show.classList.remove("d-none");
-  hide.classList.add("d-none");
-};
-
-// Show Input
-showTitle.addEventListener('click', () => {
-  titleInput.value = titleText.textContent;
-  toggleFunction(editing, showTitle);
-  console.log("Show Input");
-  
-});
-
-// Save New title
-titleSave.addEventListener("click", () => {
-  const newTitle = titleInput.value.trim();
-  if (newTitle) {
-    localStorage.setItem('dataTitle', newTitle);
-    titleText.textContent = newTitle;
-  }
-  toggleFunction(showTitle, editing);
-});
-
-// Cancel
-titleCancel.addEventListener("click", () => {
-  toggleFunction(showTitle, editing);
-});
-
-
-// Datas
+// Datas test
 [
   {"id":1,"name":"tutu","value":"32452","color":"bg-success"},
   {"id":2,"name":"tata","value":"24245","color":"bg-warning"},
@@ -263,6 +246,3 @@ titleCancel.addEventListener("click", () => {
   {"id":9,"name":"fafa","value":"23448","color":"bg-primary"},
   {"id":10,"name":"fifi","value":"12443","color":"bg-info"}
 ]
-
-// edit s'afiche quand on supprime via deleteItem
-// ajouter toggle avec le bouton delete à coté de "add"

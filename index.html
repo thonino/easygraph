@@ -41,37 +41,31 @@
       <i class="bi bi-graph-up-arrow"></i>
     </div>
 
-    <!-- Tools -->
+    <!-- Action -->
     <div class="d-flex m-2">
-      <!-- Buttons -->
       <div class="d-flex gap-2 col-4 m-0">
-        <button id="addShow" class="btn btn-success m-0" type="button">
+        <button id="addShow" class="btn btn-success m-0" type="button"><!-- Add btn -->
           <i class="bi bi-plus-lg ">
             <span class="d-sm-inline d-none">Add</span>
           </i>
         </button>
-        <button class="btn btn-danger m-0" id="delete">
-          <i class="bi bi-trash3-fill"></i> <!-- delete -->
+        <button id="deleteBtn" class="btn btn-danger m-0"> <!-- delete btn -->
+          <i class="bi bi-trash3-fill"></i> 
         </button>
       </div>
       
-      <!-- Title -->
+      <!-- Edit Title -->
       <div id="titleToggle" class="col-8">
         <p id="titleText" class="fs-5 m-0 fw-bold">Title</p>
       </div>
       <div id="editToggle" class="col-8 d-none">
         <div class="d-flex align-items-center gap-2">
-          <input 
-            id="titleInput" 
-            type="text" 
-            class="form-control m-0" 
-            placeholder="Edit title"
-          />
+          <input id="titleInput" type="text" class="form-control m-0"/>
           <button id="titleSaveBtn" class="btn btn-success">
             <i class="bi bi-check-lg"></i>
           </button>
-          <div id="titleCancelBtn" class="pointer">
-            <i class="bi bi-x-lg fs-4 text-danger"></i>
+          <div id="titleCancelBtn" class="pointer"><!-- close btn -->
+            <i class="bi bi-x-lg fs-4"></i>
           </div>
         </div>
       </div>
@@ -80,28 +74,24 @@
     <!-- Vue.js show datas -->
     <div>
       <div id="dataJson" class="d-flex mt-4 m-2">
-
         <!-- Items -->
         <div class="col-4">
-          <div 
-            v-for="data in datas" 
-            :key="data.id"
-            :id="'item-' + data.id" 
-            class="pointer d-flex fw-bold my-2 h-20"
+          <div v-for="data in datas" :key="data.id"  class="pointer d-flex my-2 h-20"
           >
-            <div>
+            <div class="hidden deleteBtnTarget"> <!-- delete btn-->
               <button :id="'deleteItem-' + data.id" class="btn btn-lg mx-2 p-0 mt-fix-6">
-                <i class="bi bi-dash-circle-fill text-danger"></i>
+                <i class="bi bi-dash-circle-fill text-danger"></i> 
               </button>
             </div>
+            <span :id="'item-' + data.id" class="d-flex">
               <div :id="'pick-'+data.id" :class="[data.color, 'rounded', 'w-20']"></div>
-              <div :id="'row-'+data.id" class="d-flex text-secondary mt-fix-3">
-                <p :id="'value-'+data.id" class="mx-2">{{ data.value }}</p>
+              <div :id="'row-'+data.id" class="d-flex text-secondary mt-fix-4">
+                <p :id="'value-'+data.id" class="fw-bold  mx-2">{{ data.value }}</p>
                 <p :id="'name-'+data.id" class="fst-italic fw-light">{{ data.name }}</p>
               </div>
+            </span>
           </div>
         </div>
-
         <!-- Graphs -->
         <div class="col-8">
           <div 
@@ -115,7 +105,7 @@
             :style="{ width: getPercentage(data) + '%' }"
           >
           </div>
-            <p class="mt-fix-3">{{ getPercentage(data) + '%' }}</p>
+            <p class="mt-fix-4">{{ getPercentage(data) + '%' }}</p>
           </div>
         </div>
       </div>
@@ -124,20 +114,20 @@
     <!-- Add form-->
     <div id="addTarget" class="hidden">
       <div class="d-flex justify-content-center">
-        <button id="addClose" class="btn m-0 p-0">
+        <button id="addClose" class="btn m-0 p-0"> <!-- close btn -->
           <i class="bi bi-x-lg fs-4"> </i>
         </button>
       </div>
       <div class="d-flex justify-content-center gap-2 mx-2">
         <i class="bi bi-plus-lg fs-4"></i>
-        <div class="col-3">
-          <input id="addName" type="text" class="form-control"  placeholder="Name..."/>
+        <div class="col-3"> <!-- input name -->
+          <input id="addName" type="text" class="form-control" placeholder="Name..."/>
         </div>
-        <div class="col-2">
-          <input id="addValue" type="text" class="form-control"  placeholder="Value..."/>
+        <div class="col-2"> <!-- input value -->
+          <input id="addValue" type="text" class="form-control" placeholder="Value..."/>
         </div>
         <div>
-          <select id="addSelect" class="form-select fw-bold" >
+          <select id="addSelect" class="form-select fw-bold"> <!-- select color -->
             <option selected disabled hidden>color</option>
             <option id="add-0" value="0" class="text-success">Success</option>
             <option id="add-1" value="1" class="text-primary">Primary</option>
@@ -147,7 +137,7 @@
           </select>
         </div>
         <div id="addChoiceColor"class="wh-40 border rounded rounded-5"></div>
-        <button id="addData" class="btn btn-success m-0" type="button">          
+        <button id="addData" class="btn btn-success m-0" type="button"> <!-- submit btn -->         
           <i class="bi bi-check-lg">
           <span class="d-sm-inline d-none">Add</span>
         </i></button>
@@ -157,24 +147,24 @@
     <!-- Edit form -->
     <div id="editTarget" class="hidden"> <!--hidden -->
       <div class="d-flex justify-content-center ">
-        <button id="editClose" class="btn  fw-bold d-flex m-0 p-0 ">
+        <button id="editClose" class="btn  fw-bold d-flex m-0 p-0 "> <!-- edit btn -->
           <i class="bi bi-x-lg fs-4"> </i> 
         </button>
       </div>
       <div class="d-flex justify-content-center gap-2 mx-2">
-        <div class="mt-fix-3">
+        <div class="mt-fix-4">
           <button id="deleteData" class="btn text-danger m-0 p-0">
-            <i class="bi bi-dash-circle-fill fs-3"></i><!-- delete -->
+            <i class="bi bi-dash-circle-fill fs-3"></i> <!-- delete btn -->
           </button>
         </div>
-        <div class="col-3">
+        <div class="col-3"> <!-- edit name -->
           <input id="editName" type="text" class="form-control"  placeholder="Name..."/>
         </div>
-        <div class="col-2">
+        <div class="col-2"> <!-- edit value -->
           <input id="editValue" type="text" class="form-control"  placeholder="Value..."/>
         </div>
         <div>
-          <select id="editSelect" class="form-select fw-bold" >
+          <select id="editSelect" class="form-select fw-bold"> <!-- change color -->
             <option selected disabled hidden>color</option>
             <option id="edit-0" value="0" class="text-success">Success</option>
             <option id="edit-1" value="1" class="text-primary">Primary</option>
@@ -184,7 +174,7 @@
           </select>
         </div>
         <div id="editChoiceColor" class="wh-40 border rounded rounded-5"></div>
-        <button id="editData" class="btn btn-success m-0" type="button">          
+        <button id="editData" class="btn btn-success m-0" type="button"> <!-- submit btn -->           
           <i class="bi bi-check-lg">
           <span class="d-sm-inline d-none">Save</span>
         </i></button>
