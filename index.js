@@ -143,7 +143,7 @@ function attachEditEvent() {
             const newData = deleteData.map((item, index) => ({
               ...item, id: index + 1 
             }));
-            
+
             // updated and Save datas
             datas = newData; 
             localStorage.setItem("datas", JSON.stringify(datas));
@@ -174,6 +174,24 @@ function attachEditEvent() {
     }
   });
 }
+
+// Handle delete
+datas.forEach((data) => {
+  const deleteItem = document.getElementById(`deleteItem-${data.id}`);
+  if (deleteItem) {
+    deleteItem.onclick = () => {
+      datas = datas.filter(item => item.id !== data.id)
+                    .map((item, index) => ({ ...item, id: index + 1 }));
+      
+      // save
+      localStorage.setItem("datas", JSON.stringify(datas));
+      loadData(); 
+      document.getElementById("editTarget")?.classList.add("hidden"); 
+    };
+  }
+});
+
+
 
 // Fonction pour recalculer les pourcentages
 function updatePercentages() {
@@ -245,3 +263,6 @@ titleCancel.addEventListener("click", () => {
   {"id":9,"name":"fafa","value":"23448","color":"bg-primary"},
   {"id":10,"name":"fifi","value":"12443","color":"bg-info"}
 ]
+
+// edit s'afiche quand on supprime via deleteItem
+// ajouter toggle avec le bouton delete à coté de "add"

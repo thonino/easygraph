@@ -4,7 +4,8 @@
 .wh-40 { width:  40px; height: 40px; }
 
 .mt-fix-3{ margin-top: -3px; }
-.mt-fix-6{ margin-top: 3px;}
+.mt-fix-6{ margin-top: -15px;}
+
 
 .show{ display: block; }
 .hidden{ display: none ; }
