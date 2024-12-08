@@ -31,7 +31,11 @@
 /* Graph 2 */
 .reverseDiv{transform: scaleY(-1);}
 .w-30 { width:  30px; }
-.h-600{ height: 300px; }
+.h-300{ height: 300px; }
+
+/* Graph 3 chart */
+/* .wh-400{ width:  400px !important; height: 400px!important; } */ /* Chart */
+.wh-400{ width:  400px !important; height: 400px!important; }
 
 /* light */
 .text-primary-light { color: #b3d7ff !important; }

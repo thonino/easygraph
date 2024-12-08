@@ -1,5 +1,7 @@
 // Color list
 let colors = ["bg-success", "bg-primary", "bg-info", "bg-warning", "bg-danger"];
+let hexadecimals = ["#198754", " #0d6efd", "#0dcaf0", "#ffc107", "#dc3545"];
+
 
 // Data from localStorage
 let datas = [];
@@ -12,6 +14,7 @@ try {
   localStorage.setItem("datas", JSON.stringify(datas));
 }
 
+// App vue js
 const app = Vue.createApp({
   data() {
     return { datas: JSON.parse(localStorage.getItem("datas")) || [], colors };
@@ -56,6 +59,59 @@ graph2show.addEventListener("click", () => {
   graph2Target.classList.remove("d-none");
 })
 
+//graph-3 Chart
+// let chartDatas = datas.map((item) => {
+//   let colorIndex = colors.indexOf(item.color);
+//   return {
+//     ...item,
+//     color: hexadecimals[colorIndex] || "#000000" 
+//   };
+// });
+// const ctx = document.getElementById('graph-3-canvas').getContext('2d');
+// new Chart(ctx, {
+//   type: 'pie',
+//   data: {
+//     labels: chartDatas.map(item => item.name),
+//     datasets: [{
+//       data: chartDatas.map(item => item.value),
+//       backgroundColor: chartDatas.map(item => item.color)
+//     }]
+//   }
+// });
+
+// Données fictives pour le camembert
+const FakeDatas = [
+  { value: 40, color: "#ff0000" },
+  { value: 25, color: "#00ff00" },
+  { value: 20, color: "#0000ff" },
+  { value: 15, color: "#ffff00" }
+];
+
+function drawPieChart() {
+  const canvas = document.getElementById("graph-4-canvas");
+  const ctx = canvas.getContext("2d");
+
+  const total = FakeDatas.reduce((sum, item) => sum + item.value, 0);
+  let startAngle = 0;
+
+  FakeDatas.forEach((item) => {
+    const sliceAngle = (item.value / total) * 2 * Math.PI;
+
+    // Dessine chaque segment du camembert
+    ctx.beginPath();
+    ctx.moveTo(150, 150);  // Centre du cercle
+    ctx.arc(150, 150, 150, startAngle, startAngle + sliceAngle);
+    ctx.fillStyle = item.color;
+    ctx.fill();
+
+    startAngle += sliceAngle;
+  });
+}
+
+// Appel de la fonction pour dessiner le camembert
+drawPieChart();
+
+
 
 // Handle Title
 const titleText = document.getElementById('titleText');
@@ -89,7 +145,6 @@ titleSave.addEventListener("click", () => {
 titleCancel.addEventListener("click", () => {
   toggleFunction(showTitle, editing);
 });
-
 // Select color: add
 for (let i = 0; i < colors.length; i++) {
   let optionBtn = document.getElementById("add-" + i);
