@@ -19,12 +19,18 @@ const app = Vue.createApp({
   computed: {
     totalValues() {
       return this.datas.reduce((sum, data) => sum + Number(data.value), 0);
-    }
+    },
   },
   methods: {
     getPercentage(data) {
-      if (this.totalValues === 0) return 0; 
+      if (this.totalValues === 0) return 0;
       return Math.round((data.value / this.totalValues) * 100);
+    },
+    getAdjustedPercentage(data) {
+      const originalPercentage = this.getPercentage(data);
+      const maxPercentage = Math.max(...this.datas.map(d => this.getPercentage(d)));
+      const multiplier = maxPercentage < 100 ? 100 / maxPercentage : 1;
+      return originalPercentage * multiplier;
     }
   },
   watch: {
@@ -33,6 +39,23 @@ const app = Vue.createApp({
     }
   }
 }).mount("#dataJson");
+
+// Models toggle graph
+let graph1Target = document.getElementById("graph-1-target");
+let graph1show = document.getElementById("graph-1-show");
+let graph2Target = document.getElementById("graph-2-target");
+let graph2show = document.getElementById("graph-2-show");
+// graph-1
+graph1show.addEventListener("click", () => {
+  graph2Target.classList.add("d-none");
+  graph1Target.classList.remove("d-none");
+})
+// graph-2
+graph2show.addEventListener("click", () => {
+  graph1Target.classList.add("d-none");
+  graph2Target.classList.remove("d-none");
+})
+
 
 // Handle Title
 const titleText = document.getElementById('titleText');
