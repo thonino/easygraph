@@ -324,3 +324,6 @@ loadData(); // Initial load
   {"id":9,"name":"fafa","value":"23448","color":"bg-primary"},
   {"id":10,"name":"fifi","value":"12443","color":"bg-info"}
 ]
+
+
+// need to lear pie 
