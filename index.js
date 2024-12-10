@@ -66,15 +66,25 @@ let graph1Target = document.getElementById("graph-1-target");
 let graph1show = document.getElementById("graph-1-show");
 let graph2Target = document.getElementById("graph-2-target");
 let graph2show = document.getElementById("graph-2-show");
+let graph3Target = document.getElementById("graph-3-target");
+let graph3show = document.getElementById("graph-3-show");
 // graph-1
 graph1show.addEventListener("click", () => {
-  graph2Target.classList.add("d-none");
   graph1Target.classList.remove("d-none");
+  graph2Target.classList.add("d-none");
+  graph3Target.classList.add("d-none");
 })
 // graph-2
 graph2show.addEventListener("click", () => {
   graph1Target.classList.add("d-none");
   graph2Target.classList.remove("d-none");
+  graph3Target.classList.add("d-none");
+})
+// graph-3
+graph3show.addEventListener("click", () => {
+  graph1Target.classList.add("d-none");
+  graph2Target.classList.add("d-none");
+  graph3Target.classList.remove("d-none");
 })
 
 
@@ -111,25 +121,7 @@ function drawPieChart(canvasId) {
 
 drawPieChart("graph-3-canvas");
 
-//graph-4 Chart
-// let chartDatas = datas.map((item) => {
-//   let colorIndex = colors.indexOf(item.color);
-//   return {
-//     ...item,
-//     color: hexadecimals[colorIndex] || "#000000" 
-//   };
-// });
-// const ctx = document.getElementById('graph-3-canvas').getContext('2d');
-// new Chart(ctx, {
-//   type: 'pie',
-//   data: {
-//     labels: chartDatas.map(item => item.name),
-//     datasets: [{
-//       data: chartDatas.map(item => item.value),
-//       backgroundColor: chartDatas.map(item => item.color)
-//     }]
-//   }
-// });
+
 
 // Handle Title
 const titleText = document.getElementById('titleText');
