@@ -1,7 +1,25 @@
-// Color list
-let colors = ["bg-success", "bg-primary", "bg-info", "bg-warning", "bg-danger"];
-let hexadecimals = ["#198754", " #0d6efd", "#0dcaf0", "#ffc107", "#dc3545"];
+// Datas model
+[
+  {"id":1,"name":"tutu","value":"32452","color":"bg-success"},
+  {"id":2,"name":"tata","value":"24245","color":"bg-warning"},
+  {"id":3,"name":"toto","value":"43543","color":"bg-danger"},
+  {"id":4,"name":"titi","value":"43534","color":"bg-primary"},
+  {"id":5,"name":"tete","value":"21322","color":"bg-info"},
+  {"id":6,"name":"nini","value":"36786","color":"bg-success"},
+  {"id":7,"name":"nana","value":"25677","color":"bg-warning"},
+  {"id":8,"name":"nunu","value":"34553","color":"bg-danger"},
+  {"id":9,"name":"fafa","value":"23448","color":"bg-primary"},
+  {"id":10,"name":"fifi","value":"12443","color":"bg-info"}
+]
 
+// Colors 
+const bootstrapColors = {
+  "bg-success": "#198754",
+  "bg-primary": "#0d6efd",
+  "bg-info": "#0dcaf0",
+  "bg-warning": "#ffc107",
+  "bg-danger": "#dc3545",
+};
 
 // Data from localStorage
 let datas = [];
@@ -17,7 +35,7 @@ try {
 // App vue js
 const app = Vue.createApp({
   data() {
-    return { datas: JSON.parse(localStorage.getItem("datas")) || [], colors };
+    return { datas: JSON.parse(localStorage.getItem("datas"))  };
   },
   computed: {
     totalValues() {
@@ -59,7 +77,41 @@ graph2show.addEventListener("click", () => {
   graph2Target.classList.remove("d-none");
 })
 
-//graph-3 Chart
+
+// graph-3
+function drawPieChart(canvasId) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+
+  // Conversion colors
+  const formattedData = datas.map(item => ({
+    value: parseInt(item.value, 10),
+    color: bootstrapColors[item.color] || "#000000"
+  }));
+
+  const total = formattedData.reduce((sum, item) => sum + item.value, 0);
+  const centerX = canvas.width / 2;
+  const centerY = canvas.height / 2;
+  const radius = Math.min(centerX, centerY);
+  let startAngle = 0;
+
+  formattedData.forEach(item => {
+    const sliceAngle = (item.value / total) * 2 * Math.PI;
+
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY); 
+    ctx.arc(centerX, centerY, radius, startAngle, startAngle + sliceAngle);
+    ctx.fillStyle = item.color;
+    ctx.fill();
+
+    startAngle += sliceAngle;
+  });
+}
+
+drawPieChart("graph-3-canvas");
+
+//graph-4 Chart
 // let chartDatas = datas.map((item) => {
 //   let colorIndex = colors.indexOf(item.color);
 //   return {
@@ -78,40 +130,6 @@ graph2show.addEventListener("click", () => {
 //     }]
 //   }
 // });
-
-// Données fictives pour le camembert
-const FakeDatas = [
-  { value: 40, color: "#ff0000" },
-  { value: 25, color: "#00ff00" },
-  { value: 20, color: "#0000ff" },
-  { value: 15, color: "#ffff00" }
-];
-
-function drawPieChart() {
-  const canvas = document.getElementById("graph-4-canvas");
-  const ctx = canvas.getContext("2d");
-
-  const total = FakeDatas.reduce((sum, item) => sum + item.value, 0);
-  let startAngle = 0;
-
-  FakeDatas.forEach((item) => {
-    const sliceAngle = (item.value / total) * 2 * Math.PI;
-
-    // Dessine chaque segment du camembert
-    ctx.beginPath();
-    ctx.moveTo(150, 150);  // Centre du cercle
-    ctx.arc(150, 150, 150, startAngle, startAngle + sliceAngle);
-    ctx.fillStyle = item.color;
-    ctx.fill();
-
-    startAngle += sliceAngle;
-  });
-}
-
-// Appel de la fonction pour dessiner le camembert
-drawPieChart();
-
-
 
 // Handle Title
 const titleText = document.getElementById('titleText');
@@ -145,24 +163,45 @@ titleSave.addEventListener("click", () => {
 titleCancel.addEventListener("click", () => {
   toggleFunction(showTitle, editing);
 });
-// Select color: add
-for (let i = 0; i < colors.length; i++) {
+
+Object.keys(bootstrapColors).forEach((colorKey, i) => {
   let optionBtn = document.getElementById("add-" + i);
-  optionBtn.addEventListener("click", function () {
-    let choice = document.querySelector("#addChoiceColor");
-    choice.classList.remove(...colors);
-    choice.classList.add(colors[i]);
-  });
+  if (optionBtn) {
+    optionBtn.addEventListener("click", function () {
+      let choice = document.querySelector("#addChoiceColor");
+      choice.classList.remove(...Object.keys(bootstrapColors));
+      choice.classList.add(colorKey); // Clé ajoutée directement
+    });
+  }
+});
+
+// Obtenir les clés de bootstrapColors
+const colorKeys = Object.keys(bootstrapColors); 
+
+// Select color: add
+for (let i = 0; i < colorKeys.length; i++) {
+  let optionBtn = document.getElementById("add-" + i+1);
+  if (optionBtn) {
+    optionBtn.addEventListener("click", function () {
+      let choice = document.querySelector("#addChoiceColor");
+      choice.classList.remove(...colorKeys); 
+      choice.classList.add(colorKeys[i]); 
+    });
+  }
 }
+
 // Select color: edit
-for (let i = 0; i < colors.length; i++) {
+for (let i = 0; i < colorKeys.length; i++) {
   let optionBtn = document.getElementById("edit-" + i);
-  optionBtn.addEventListener("click", function () {
-    let choice = document.querySelector("#editChoiceColor");
-    choice.classList.remove(...colors);
-    choice.classList.add(colors[i]);
-  });
+  if (optionBtn) {
+    optionBtn.addEventListener("click", function () {
+      let choice = document.querySelector("#editChoiceColor");
+      choice.classList.remove(...colorKeys); 
+      choice.classList.add(colorKeys[i]); 
+    });
+  }
 }
+
 // Add show
 let addShow = document.getElementById("addShow");
 addShow.addEventListener("click", () => {
@@ -196,7 +235,7 @@ addData.addEventListener("click", function () {
       id: app.datas.length + 1,
       name: addName,
       value: addValue,
-      color: colors[addSelect],
+      color: addSelect,
     };
     // Push and save data
     datas.push(newData);
@@ -218,16 +257,15 @@ addData.addEventListener("click", function () {
 function attachEditEvent() {
   datas.forEach((data, index) => {
     const editToggle = document.getElementById(`item-${data.id}`);
-    
     if (editToggle) {
       editToggle.onclick = () => {
         // Pre-fill 
         document.getElementById("editName").value = data.name;
         document.getElementById("editValue").value = data.value;
-        document.getElementById("editSelect").value = colors.indexOf(data.color);
+        document.getElementById("editSelect").value = data.color;
         // Apply the selected color
         const choiceColor = document.getElementById("editChoiceColor");
-        choiceColor.classList.remove(...colors);
+        choiceColor.classList.remove(...colorKeys);
         choiceColor.classList.add(data.color);
         // Show edit section
         const editTarget = document.getElementById("editTarget");
@@ -244,7 +282,7 @@ function attachEditEvent() {
             // updated and Save datas
             datas = newData; 
             localStorage.setItem("datas", JSON.stringify(datas));
-            loadData();
+            loadData(); 
             editTarget.classList.add("hidden");
           };
         }
@@ -257,11 +295,11 @@ function attachEditEvent() {
               ...datas[index],
               name: document.getElementById("editName").value,
               value: document.getElementById("editValue").value,
-              color: colors[document.getElementById("editSelect").value]
+              color: document.getElementById("editSelect").value
             };
             // Save updated data
             localStorage.setItem("datas", JSON.stringify(datas));
-            loadData();
+            loadData(); 
             editTarget.classList.add("hidden");
           };
         }
@@ -296,7 +334,12 @@ datas.forEach((data) => {
   }
 });
 
-// Fonction pour recalculer les pourcentages
+// Fonction de mise à jour globale
+function updateChart() {
+  drawPieChart("graph-3-canvas");
+}
+
+// updating percentage
 function updatePercentages() {
   let totalValues = datas.reduce((sum, data) => sum + Number(data.value), 0);
   percentTab = datas.map(data => Math.round((data.value / totalValues) * 100));
@@ -305,25 +348,10 @@ function updatePercentages() {
 // Function to refresh datas, attach events, and update percentages
 function loadData() {
   app.datas = JSON.parse(localStorage.getItem("datas")) || [];
-  updatePercentages();
+  updatePercentages(); updateChart();
   Vue.nextTick(() => {  attachEditEvent(); });
 }
 
 loadData(); // Initial load
 
-// Datas test
-[
-  {"id":1,"name":"tutu","value":"32452","color":"bg-success"},
-  {"id":2,"name":"tata","value":"24245","color":"bg-warning"},
-  {"id":3,"name":"toto","value":"43543","color":"bg-danger"},
-  {"id":4,"name":"titi","value":"43534","color":"bg-primary"},
-  {"id":5,"name":"tete","value":"21322","color":"bg-info"},
-  {"id":6,"name":"nini","value":"36786","color":"bg-success"},
-  {"id":7,"name":"nana","value":"25677","color":"bg-warning"},
-  {"id":8,"name":"nunu","value":"34553","color":"bg-danger"},
-  {"id":9,"name":"fafa","value":"23448","color":"bg-primary"},
-  {"id":10,"name":"fifi","value":"12443","color":"bg-info"}
-]
-
-
-// need to lear pie 
+// When I’ve just added a new data, I can’t see it if I click on the delete button.

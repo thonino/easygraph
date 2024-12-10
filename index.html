@@ -61,7 +61,7 @@
       
       <!-- Edit Title -->
       <div id="titleToggle" class="col-8">
-        <p id="titleText" class="fs-5 m-0 fw-bold">Title</p>
+        <p id="titleText" class="fs-5 m-0 fw-bold ">Title</p>
       </div>
       <div id="editToggle" class="col-8 d-none">
         <div class="d-flex align-items-center gap-2">
@@ -78,7 +78,7 @@
 
     <!-- Vue.js -->
     <div class="">
-      <div id="dataJson" class="d-flex flex-wrap mt-4 m-2 ">
+      <div id="dataJson" class="d-flex just flex-wrap mt-4 m-2 ">
         <!-- Items -->
         <div class="col-4">
           <div v-for="data in datas" :key="data.id"  class="pointer d-flex my-2 h-20"
@@ -140,16 +140,14 @@
               </div>
             </div>
         </div>
-
-        <!-- Graphs 3 Chart -->
-        <!-- <canvas id="graph-3-canvas" class="wh-400" ></canvas> -->
-
-        <!-- Graph 4 - Camembert Simple -->
-        <div id="graph-4-target" class="mt-4">
-          <canvas id="graph-4-canvas" width="300" height="300"></canvas>
+        
+        <!-- Graph 3 -->
+        <div id="graph-3-target" class="mt-4">
+          <canvas id="graph-3-canvas" width="300" height="300"></canvas>
         </div>
 
-
+        <!-- Graphs 4 Chart -->
+        <!-- <canvas id="graph-3-canvas" class="wh-400" ></canvas> -->
 
       </div>
     </div>
@@ -172,11 +170,11 @@
         <div>
           <select id="addSelect" class="form-select fw-bold"> <!-- select color -->
             <option selected disabled hidden>color</option>
-            <option id="add-0" value="0" class="text-success">Success</option>
-            <option id="add-1" value="1" class="text-primary">Primary</option>
-            <option id="add-2" value="2" class="text-info">Info</option>
-            <option id="add-3" value="3" class="text-warning">Warning</option>
-            <option id="add-4" value="4" class="text-danger">Danger</option>
+            <option id="add-0" value="bg-success" class="text-success">Success</option>
+            <option id="add-1" value="bg-primary" class="text-primary">Primary</option>
+            <option id="add-2" value="bg-info" class="text-info">Info</option>
+            <option id="add-3" value="bg-warning" class="text-warning">Warning</option>
+            <option id="add-4" value="bg-danger" class="text-danger">Danger</option>
           </select>
         </div>
         <div id="addChoiceColor"class="wh-40 border rounded rounded-5"></div>
@@ -209,11 +207,11 @@
         <div>
           <select id="editSelect" class="form-select fw-bold"> <!-- change color -->
             <option selected disabled hidden>color</option>
-            <option id="edit-0" value="0" class="text-success">Success</option>
-            <option id="edit-1" value="1" class="text-primary">Primary</option>
-            <option id="edit-2" value="2" class="text-info">Info</option>
-            <option id="edit-3" value="3" class="text-warning">Warning</option>
-            <option id="edit-4" value="4" class="text-danger">Danger</option>
+            <option id="edit-0" value="bg-success" class="text-success">Success</option>
+            <option id="edit-1" value="bg-primary" class="text-primary">Primary</option>
+            <option id="edit-2" value="bg-info" class="text-info">Info</option>
+            <option id="edit-3" value="bg-warning" class="text-warning">Warning</option>
+            <option id="edit-4" value="bg-danger" class="text-danger">Danger</option>
           </select>
         </div>
         <div id="editChoiceColor" class="wh-40 border rounded rounded-5"></div>
