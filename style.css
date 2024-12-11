@@ -35,8 +35,6 @@
 
 /* Graph 3 */
 #graph-3-target{ 
-  width:  300px; 
-  height: 300px;
   display: flex;
   justify-content: center;
 }

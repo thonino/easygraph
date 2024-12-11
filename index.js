@@ -68,17 +68,23 @@ let graph2Target = document.getElementById("graph-2-target");
 let graph2show = document.getElementById("graph-2-show");
 let graph3Target = document.getElementById("graph-3-target");
 let graph3show = document.getElementById("graph-3-show");
+let sliceDataName = document.getElementById("sliceDataName");
+let sliceDataValue = document.getElementById("sliceDataValue");
 // graph-1
 graph1show.addEventListener("click", () => {
   graph1Target.classList.remove("d-none");
   graph2Target.classList.add("d-none");
   graph3Target.classList.add("d-none");
+  sliceDataName.textContent = "";
+  sliceDataValue.textContent = "";
 })
 // graph-2
 graph2show.addEventListener("click", () => {
   graph1Target.classList.add("d-none");
   graph2Target.classList.remove("d-none");
   graph3Target.classList.add("d-none");
+  sliceDataName.textContent = "";
+  sliceDataValue.textContent = "";
 })
 // graph-3
 graph3show.addEventListener("click", () => {
@@ -86,7 +92,6 @@ graph3show.addEventListener("click", () => {
   graph2Target.classList.add("d-none");
   graph3Target.classList.remove("d-none");
 })
-
 
 // graph-3
 function drawPieChart(canvasId) {
@@ -97,7 +102,8 @@ function drawPieChart(canvasId) {
   // Conversion colors
   const formattedData = datas.map(item => ({
     value: parseInt(item.value, 10),
-    color: bootstrapColors[item.color] || "#000000"
+    color: bootstrapColors[item.color],
+    label: item.name 
   }));
 
   const total = formattedData.reduce((sum, item) => sum + item.value, 0);
@@ -106,22 +112,57 @@ function drawPieChart(canvasId) {
   const radius = Math.min(centerX, centerY);
   let startAngle = 0;
 
-  formattedData.forEach(item => {
+  // Stocker les angles pour chaque part
+  const slices = formattedData.map(item => {
     const sliceAngle = (item.value / total) * 2 * Math.PI;
+    const endAngle = startAngle + sliceAngle;
+    const slice = {
+      label: item.label,
+      color: item.color,
+      value: item.value,
+      startAngle,
+      endAngle,
+    };
 
+    startAngle = endAngle;
+    return slice;
+  });
+
+  // Dranw
+  slices.forEach(slice => {
     ctx.beginPath();
-    ctx.moveTo(centerX, centerY); 
-    ctx.arc(centerX, centerY, radius, startAngle, startAngle + sliceAngle);
-    ctx.fillStyle = item.color;
+    ctx.moveTo(centerX, centerY);
+    ctx.arc(centerX, centerY, radius, slice.startAngle, slice.endAngle);
+    ctx.fillStyle = slice.color;
     ctx.fill();
+  });
 
-    startAngle += sliceAngle;
+  // Détection de clic ou survol
+  canvas.addEventListener("mousemove", event => {
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+  
+    const dx = mouseX - centerX;
+    const dy = mouseY - centerY;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+  
+    if (distance <= radius) {
+      const angle = Math.atan2(dy, dx) >= 0 ? Math.atan2(dy, dx) : Math.atan2(dy, dx) + 2 * Math.PI;
+  
+      // Trouve directement la slice
+      const hoveredSlice = slices.find(slice =>
+        angle >= slice.startAngle && angle < slice.endAngle
+      );
+      if (hoveredSlice) {
+        sliceDataName.textContent = hoveredSlice.label;
+        sliceDataName.style.color = hoveredSlice.color;
+        sliceDataValue.textContent = hoveredSlice.value;
+      }
+    } 
   });
 }
-
 drawPieChart("graph-3-canvas");
-
-
 
 // Handle Title
 const titleText = document.getElementById('titleText');

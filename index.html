@@ -30,21 +30,25 @@
       </div>
     </nav>
 
-    <!-- Title -->
-    <h1 class="fw-bold text-secondary text-center" id="title">EasyGraph</h1>
-
-    <!-- Models -->
-    <div class="fs-1 text-secondary d-flex justify-content-center gap-2 mt-3">
-      <button id="graph-1-show" class="btn btn-lg btn-secondary">
-        <i class="bi bi-bar-chart-steps fs-1"></i>
-      </button>
-      <button id="graph-2-show" class="btn btn-lg btn-secondary">
-        <i class="bi bi-bar-chart-fill fs-1"></i>
-      </button>
-      <button id="graph-3-show" class="btn btn-lg btn-secondary">
-        <i class="bi bi-circle-fill fs-1"></i>
-      </button>
-    </div>
+    <div class="d-flex">
+      <!-- Title -->
+      <div class="col-4"></div>
+        <div class="col-8 text-center">
+          <h1 class="fw-bold text-secondary " id="title">EasyGraph</h1>
+          <!-- Models -->
+        <div class="fs-1 text-secondary gap-2 m-2 mb-0">
+          <button id="graph-1-show" class="btn btn-secondary">
+            <i class="bi bi-bar-chart-steps fs-1"></i>
+          </button>
+          <button id="graph-2-show" class="btn btn-secondary">
+            <i class="bi bi-bar-chart-fill fs-1"></i>
+          </button>
+          <button id="graph-3-show" class="btn btn-secondary">
+            <i class="bi bi-circle-fill fs-1"></i>
+          </button>
+        </div>
+        </div>
+      </div>
 
     <!-- Action -->
     <div class="d-flex m-2">
@@ -61,7 +65,7 @@
       
       <!-- Edit Title -->
       <div id="titleToggle" class="col-8">
-        <p id="titleText" class="fs-5 m-0 fw-bold text-center">Title</p>
+        <p id="titleText" class="fs-3  fw-bold text-center m-0 me-2">Title</p>
       </div>
       <div id="editToggle" class="col-8 d-none">
         <div class="d-flex align-items-center gap-2">
@@ -78,11 +82,10 @@
 
     <!-- Vue.js -->
     <div class="">
-      <div id="dataJson" class="d-flex mt-4 m-2 ">
+      <div id="dataJson" class="d-flex mx-2">
         <!-- Items -->
         <div class="col-4">
-          <div v-for="data in datas" :key="data.id"  class="pointer d-flex my-2 h-20"
-          >
+          <div v-for="data in datas" :key="data.id"  class="pointer d-flex my-2 h-20">
             <div class="hidden deleteBtnTarget"> <!-- delete btn-->
               <button :id="'deleteItem-' + data.id" class="btn btn-lg mx-2 p-0 mt-fix-6">
                 <i class="bi bi-dash-circle-fill text-danger"></i> 
@@ -97,10 +100,9 @@
             </span>
           </div>
         </div>
-
         <div class="d-flex justify-content-center col-8 ">
           <!-- Graphs 1 -->
-          <div id="graph-1-target" class=" mb-2 col-8">
+          <div id="graph-1-target" class="mb-2 col-8">
             <div  v-for="data in datas"  :key="data.id"  class=" d-flex gap-2 p-0 m-2 h-20">
             <div 
               :id="'graph-' + data.id" 
@@ -128,14 +130,19 @@
                 </div>
               </div>
           </div>
-          
           <!-- Graph 3 -->
-          <div id="graph-3-target" class="d-none d-flex justify-content-center mt-4 me-2">
+          <div id="graph-3-target" class="d-none d-flex flex-column justify-content-center mt-4 me-2">
             <canvas id="graph-3-canvas" width="300" height="300"></canvas>
           </div>
-          
         </div>
-
+      </div>
+    </div>
+    <div class="d-flex">
+      <!-- Pie informations -->
+      <div class="col-4"></div>
+      <div class="col-8 d-flex justify-content-center gap-2 fs-4">
+        <p id="sliceDataName" class="fw-bold text-capitalize "></p>
+        <p id="sliceDataValue" class="fw-light"> </p>
       </div>
     </div>
 
