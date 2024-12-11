@@ -7,7 +7,6 @@
 .mt-fix-4{ margin-top: -4px; }
 .mt-fix-6{ margin-top: -15px;}
 
-
 .show{ display: block; }
 .hidden{ display: none ; }
 
@@ -28,15 +27,40 @@
     background-color: white;
   }
 
+  .visibility { visibility: hidden; }
+
+  
+  .titleEditIcon{
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease; 
+  }
+  
+  #titleToggle:hover .titleEditIcon {
+    visibility: visible;
+    opacity: 1; 
+  }
+
+#itemEditBtn {
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease; 
+} 
+  
+.itemContainer:hover #itemEditBtn{
+  visibility: visible;
+  opacity: 1; 
+}
+  
+
 /* Graph 2 */
 .reverseDiv{transform: scaleY(-1);}
 .w-30 { width:  30px; }
 .h-300{ height: 300px; }
 
-/* Graph 3 */
-#graph-3-target{ 
+#modelContainer{
   display: flex;
   justify-content: center;
+  align-items: center;
+  min-height: 325px;
 }
 
 /* light */

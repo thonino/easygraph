@@ -30,20 +30,23 @@
       </div>
     </nav>
 
-    <div class="d-flex">
+    <div class="d-flex  px-2">
       <!-- Title -->
-      <div class="col-4"></div>
-        <div class="col-8 text-center">
-          <h1 class="fw-bold text-secondary " id="title">EasyGraph</h1>
+      <div class="col-4 d-flex flex-column align-items-center ">
+        <p class="fs-3 fw-bold m-0">Model :</p>
+        <p id="toolChoice" class="fs-1 fw-bold text-info m-0">Horizontal</p>
+      </div>
+        <div class="text-center col-8">                                     <!-- here -->
+          <h1 class="fw-bold text-info " id="title">EasyGraph</h1>
           <!-- Models -->
-        <div class="fs-1 text-secondary gap-2 m-2 mb-0">
-          <button id="graph-1-show" class="btn btn-secondary">
+        <div class="fs-1 text-secondary gap-2  mb-0">
+          <button id="graph-1-btn" class="btn btn-info shadow">
             <i class="bi bi-bar-chart-steps fs-1"></i>
           </button>
-          <button id="graph-2-show" class="btn btn-secondary">
+          <button id="graph-2-btn" class="btn btn-secondary shadow">
             <i class="bi bi-bar-chart-fill fs-1"></i>
           </button>
-          <button id="graph-3-show" class="btn btn-secondary">
+          <button id="graph-3-btn" class="btn btn-secondary shadow">
             <i class="bi bi-circle-fill fs-1"></i>
           </button>
         </div>
@@ -51,8 +54,8 @@
       </div>
 
     <!-- Action -->
-    <div class="d-flex m-2">
-      <div class="d-flex gap-2 col-4 m-0">
+    <div class="d-flex m-2">                                                                         
+      <div class="d-flex gap-2 col-4 m-0 mb-3">
         <button id="addShow" class="btn btn-success m-0" type="button"><!-- Add btn -->
           <i class="bi bi-plus-lg ">
             <span class="d-sm-inline d-none">Add</span>
@@ -62,12 +65,17 @@
           <i class="bi bi-trash3-fill"></i> 
         </button>
       </div>
-      
       <!-- Edit Title -->
-      <div id="titleToggle" class="col-8">
-        <p id="titleText" class="fs-3  fw-bold text-center m-0 me-2">Title</p>
-      </div>
-      <div id="editToggle" class="col-8 d-none">
+      <div id="titleToggle" class="m-0 col-8">
+        <div class="d-flex justify-content-center align-items-center gap-3">
+          <div class="visibility"><i class="bi bi-plus fs-4 "></i></div> <!-- fix positions -->
+          <p id="titleText" class="fs-3 text-warning-dark fw-bold">Title</p>
+          <div id="titleEditIcon" class="titleEditIcon mb-3">
+            <i class="bi bi-pencil-fill fs-5 text-warning-dark"></i>
+          </div>
+        </div>
+      </div>      
+      <div id="editToggle" class="d-none col-8"> 
         <div class="d-flex align-items-center gap-2">
           <input id="titleInput" type="text" class="form-control m-0"/>
           <button id="titleSaveBtn" class="btn btn-success">
@@ -82,27 +90,30 @@
 
     <!-- Vue.js -->
     <div class="">
-      <div id="dataJson" class="d-flex mx-2">
+      <div id="dataJson" class="d-flex px-0 mx-2 ">
         <!-- Items -->
-        <div class="col-4">
-          <div v-for="data in datas" :key="data.id"  class="pointer d-flex my-2 h-20">
+        <div class="bg-success-light shadow rounded-start p-2 col-4">
+          <div v-for="data in datas" :key="data.id" class="d-flex my-2 h-20">
             <div class="hidden deleteBtnTarget"> <!-- delete btn-->
               <button :id="'deleteItem-' + data.id" class="btn btn-lg mx-2 p-0 mt-fix-6">
                 <i class="bi bi-dash-circle-fill text-danger"></i> 
               </button>
             </div>
-            <span :id="'item-' + data.id" class="d-flex">
+            <span :id="'item-' + data.id" class="d-flex itemContainer pointer ">
               <div :id="'pick-'+data.id" :class="[data.color, 'rounded', 'w-20']"></div>
               <div :id="'row-'+data.id" class="d-flex text-secondary mt-fix-4">
                 <p :id="'value-'+data.id" class="fw-bold  mx-2">{{ data.value }}</p>
                 <p :id="'name-'+data.id" class="fst-italic fw-light">{{ data.name }}</p>
+                <div id="itemEditBtn">
+                  <i class="bi bi-pencil-fill text-success-dark ms-2"></i>
+                </div>
               </div>
             </span>
           </div>
         </div>
-        <div class="d-flex justify-content-center col-8 ">
+        <div id="modelContainer" class="bg-warning-light shadow rounded-end col-8">
           <!-- Graphs 1 -->
-          <div id="graph-1-target" class="mb-2 col-8">
+          <div id="graph-1-target" class="col-8">
             <div  v-for="data in datas"  :key="data.id"  class=" d-flex gap-2 p-0 m-2 h-20">
             <div 
               :id="'graph-' + data.id" 
@@ -131,20 +142,20 @@
               </div>
           </div>
           <!-- Graph 3 -->
-          <div id="graph-3-target" class="d-none d-flex flex-column justify-content-center mt-4 me-2">
-            <canvas id="graph-3-canvas" width="300" height="300"></canvas>
+          <div id="graph-3-target"  class="d-none d-flex flex-column pb-2 ms-2">
+            <canvas id="graph-3-canvas" class="" width="270" height="270"></canvas>
+                <!-- Pie informations -->
+            <div class="d-flex justify-content-center mb-2">
+              <div class=" d-flex justify-content-center position-absolute gap-2">
+                <p id="sliceDataName" class="fs-4 fw-bold text-capitalize"></p>
+                <p id="sliceDataValue" class="fs-4 fw-light"> </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="d-flex">
-      <!-- Pie informations -->
-      <div class="col-4"></div>
-      <div class="col-8 d-flex justify-content-center gap-2 fs-4">
-        <p id="sliceDataName" class="fw-bold text-capitalize "></p>
-        <p id="sliceDataValue" class="fw-light"> </p>
-      </div>
-    </div>
+
 
     <!-- Add form-->
     <div id="addTarget" class="hidden">
