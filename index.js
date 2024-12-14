@@ -241,7 +241,6 @@ function drawPieChart(canvasId) {
 // Appel de la fonction avec l'ID du canvas
 drawPieChart("graph-3-canvas");
 
-
 // Handle Title
 const titleText = document.getElementById('titleText');
 const titleInput = document.getElementById('titleInput');

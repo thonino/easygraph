@@ -62,6 +62,27 @@
   align-items: center;
   min-height: 325px;
 }
+.cursor-default { cursor: default; }
+.cursor-pointer { cursor: pointer; }
+.underline { text-decoration: underline; }
+.undecored { text-decoration: none; }
+.ft-victoria {font-family: "Playwrite AU VIC", cursive;}
+.ft-roboto {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* 
+Primary : #0d6efd
+Secondary : #6c757d
+Success : #198754
+Danger : #dc3545
+Warning : #ffc107
+Info : #0dcaf0
+Light : #f8f9fa
+Dark : #212529 
+*/
 
 /* light */
 .text-primary-light { color: #b3d7ff !important; }
@@ -90,17 +111,5 @@
 .bg-danger-dark, .bg-danger-dark:hover { background-color: #9e1f2c !important; }
 .bg-warning-dark { background-color: #a37c05 !important; }
 .bg-info-dark, .bg-info-dark:hover { background-color: #086589 !important; }
-
-/* 
-Primary : #0d6efd
-Secondary : #6c757d
-Success : #198754
-Danger : #dc3545
-Warning : #ffc107
-Info : #0dcaf0
-Light : #f8f9fa
-Dark : #212529 
-*/
-
 
 
