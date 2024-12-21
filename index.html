@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EasyGraph</title>
+      <!-- google fonts -->
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Playwrite+AU+VIC:wght@100..400&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+      <!-- bootstrap -->
       <link rel="stylesheet" href="style.css">
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -14,30 +20,50 @@
   </head>
   <body>
     <!-- Nav -->
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark m-0 p-0 pt-1">
       <div class="container-fluid">
-        <a class="navbar-brand text-info fw-bold" href="#">EasyGraph</a>
+        <a class="navbar-brand fs-6 fw-bold text-info" href="#">
+          <img 
+            src="/logo.png" 
+            width="25px" 
+            height="25px" 
+            style="margin-top:-15px;"
+          >
+          <span class="ms-1">
+            EasyGraph
+          </span>
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
           aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
-            <a class="nav-link active" aria-current="page" href="#">About</a>
-            <a class="nav-link" href="#">Contact</a>
+            <a 
+              class="nav-link active" 
+              type="button" 
+              data-bs-toggle="offcanvas" 
+              data-bs-target="#offcanvasScrolling" 
+              aria-controls="offcanvasScrolling"
+            >
+              About
+            </a>
+            <a class="nav-link disabled" href="#">Contact</a>
           </div>
         </div>
       </div>
     </nav>
 
-    <div class="d-flex  px-2">
+    <div class="d-flex px-2">
       <!-- Title -->
-      <div class="col-4 d-flex flex-column align-items-center ">
+      <div id="modelTarget" class="col-4 d-flex flex-column align-items-center">
         <p class="fs-3 fw-bold m-0">Model :</p>
         <p id="toolChoice" class="fs-1 fw-bold text-info m-0">Horizontal</p>
       </div>
         <div class="text-center col-8">                                     <!-- here -->
-          <h1 class="fw-bold text-info " id="title">EasyGraph</h1>
+          <h1 class="fs-2 fw-bold text-info mb-4 mt-2" id="title">
+            EasyGraph
+          </h1>
           <!-- Models -->
         <div class="fs-1 text-secondary gap-2  mb-0">
           <button id="graph-1-btn" class="btn btn-info shadow">
@@ -89,9 +115,9 @@
     </div>
 
     <!-- Add form-->
-    <div id="addTarget" class="hidden mb-2 ">
-      <div class="d-flex justify-content-center">
-        <button id="addClose" class="btn "> <!-- close btn -->
+    <div id="addTarget" class="mb-2 hidden"><!-- class : hidden -->
+      <div class="d-flex justify-content-center"> 
+        <button id="addClose" class="btn p-0"> <!-- close btn -->
           <i class="bi bi-x-lg fs-4"> </i>
         </button>
       </div>
@@ -123,8 +149,8 @@
 
     <!-- Edit form -->
     <div id="editTarget" class="hidden mb-2 "> <!--hidden -->
-      <div class="d-flex justify-content-center ">
-        <button id="editClose" class="btn  fw-bold d-flex"> <!-- edit btn -->
+      <div class="d-flex justify-content-center">
+        <button id="editClose" class="btn fw-bold d-flex"> <!-- edit btn -->
           <i class="bi bi-x-lg fs-4"> </i> 
         </button>
       </div>
@@ -162,14 +188,14 @@
     <div class="">
       <div id="dataJson" class="d-flex px-0 mx-2 ">
         <!-- Items -->
-        <div class="bg-success-light shadow rounded-start p-2 col-4">
-          <div v-for="data in datas" :key="data.id" class="d-flex my-2 h-20">
+        <div class="d-flex flex-column justify-content-center bg-success-light shadow rounded-start col-4 ps-2">
+          <div v-for="data in datas" :key="data.id" class="d-flex my-1 h-20">
             <div class="hidden deleteBtnTarget"> <!-- delete btn-->
               <button :id="'deleteItem-' + data.id" class="btn btn-lg mx-2 p-0 mt-fix-6">
                 <i class="bi bi-dash-circle-fill text-danger"></i> 
               </button>
             </div>
-            <span :id="'item-' + data.id" class="d-flex itemContainer pointer ">
+            <span :id="'item-' + data.id" class="d-flex itemContainer pointer">
               <div :id="'pick-'+data.id" :class="[data.color, 'rounded', 'w-20']"></div>
               <div :id="'row-'+data.id" class="d-flex text-secondary mt-fix-4">
                 <p :id="'value-'+data.id" class="fw-bold  mx-2">{{ data.value }}</p>
@@ -195,7 +221,7 @@
           <!-- Graphs 2 -->
           <div id="graph-2-target" class="d-none col-8">
               <div class="d-flex justify-content-center gap-2 reverseDiv h-300 px-2">
-                <div v-for="data in datas" :key="data.id" class="gap-2 p-0  w-30">
+                <div v-for="data in datas" :key="data.id" class="gap-2 p-0 pt-1  w-30">
                   <div 
                     :id="'graph-' + data.id" 
                     :class="[data.color, 'rounded-bottom']"
@@ -258,6 +284,81 @@
         </i></button>
       </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="container-fluid position-fixed bottom-0  p-0">
+      <div class="bg-dark text-light contaziner-fluid text-center p-4">
+        <p class="mb-0">&copy; 2024 Mon Site Web. Tous droits réservés.</p>
+      </div>
+    </footer>
+
+<div 
+  class="offcanvas offcanvas-start" 
+  data-bs-scroll="true" 
+  data-bs-backdrop="false" 
+  tabindex="-1" 
+  id="offcanvasScrolling" 
+  aria-labelledby="offcanvasScrollingLabel"
+>
+<div class="justify-content-between offcanvas-header bg-dark">
+  <h5 
+    class="offcanvas-title text-info fw-bold h1" 
+    id="offcanvasScrollingLabel"
+  > 
+    About 
+  </h5>
+  <button 
+    type="button" 
+    class="btn btn-lg text-light  p-0" 
+    data-bs-dismiss="offcanvas" 
+    aria-label="Close"
+  >
+    <i class="bi bi-x-lg h3"></i>
+  </button>
+</div>
+<div class="offcanvas-body">
+  <div class="offcanvas-body">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 ft-roboto">
+          <h4 class="fw-bold">Who are we?</h4>
+          <p>
+            We created this application to make data visualization easier. 
+            It allows you to transform your data into dynamic and interactive charts.
+          </p>
+        </div>
+      
+        <div class="col-12">
+          <h4 class="fw-bold">Our story</h4>
+          <p>
+            Launched in 2024, our application was created to simplify the process of making 
+            professional charts. Today, it is used by thousands of people.
+          </p>
+        </div>
+      
+        <div class="col-12">
+          <h4 class="fw-bold text-center mt-2">Our charts</h4>
+          <ul class="list-group">
+            <li class="list-group-item bg-secondary text-light">
+              <strong>Horizontal</strong> charts: 
+              Comparison between different categories.
+            </li>
+            <li class="list-group-item bg-secondary-dark text-light">
+              <strong>Vertical</strong> charts: 
+              Visualization of trends over time.
+            </li>
+            <li class="list-group-item bg-secondary  text-light">
+              <strong>Circular</strong> charts: 
+              Distribution of shares by category.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
   </body>
 </html>
 
