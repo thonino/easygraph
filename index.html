@@ -33,22 +33,24 @@
             EasyGraph
           </span>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+        <button class="navbar-toggler mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
           aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
-            <a 
-              class="nav-link active" 
-              type="button" 
-              data-bs-toggle="offcanvas" 
-              data-bs-target="#offcanvasScrolling" 
-              aria-controls="offcanvasScrolling"
-            >
-              About
-            </a>
-            <a class="nav-link disabled" href="#">Contact</a>
+            <div  class="d-flex gap-3">
+              <a 
+                class="nav-link active" 
+                type="button" 
+                data-bs-toggle="offcanvas" 
+                data-bs-target="#offcanvasScrolling" 
+                aria-controls="offcanvasScrolling"
+              >
+                About
+              </a>
+              <a class="nav-link disabled" href="#">Contact</a>
+            </div>
           </div>
         </div>
       </div>
@@ -58,9 +60,9 @@
       <!-- Title -->
       <div id="modelTarget" class="col-4 d-flex flex-column align-items-center">
         <p class="fs-3 fw-bold m-0">Model :</p>
-        <p id="toolChoice" class="fs-1 fw-bold text-info m-0">Horizontal</p>
+        <p id="toolChoice" class="fs-3 fw-bold text-info m-0">Horizontal</p>
       </div>
-        <div class="text-center col-8">                                     <!-- here -->
+        <div class="text-center col-8">                       
           <h1 class="fs-2 fw-bold text-info mb-4 mt-2" id="title">
             EasyGraph
           </h1>
@@ -83,7 +85,7 @@
     <div class="d-flex mx-2 mt-2">                                                                         
       <div class="d-flex gap-2 col-4 m-0 mb-3">
         <button id="addShow" class="btn btn-success m-0" type="button"><!-- Add btn -->
-          <i class="bi bi-plus-lg ">
+          <i class="bi bi-plus-lg">
             <span class="d-sm-inline d-none">Add</span>
           </i>
         </button>
@@ -94,7 +96,7 @@
       <!-- Edit Title -->
       <div id="titleToggle" class="col-8">
         <div class="d-flex justify-content-center align-items-center gap-3 m-0">
-          <div class="visibility"><i class="bi bi-plus fs-4 "></i></div> <!-- fix positions -->
+          <div class="visibility"><i class="bi bi-plus fs-4 "></i></div> 
           <p id="titleText" class="fs-3 text-warning-dark fw-bold">Title</p>
           <div id="titleEditIcon" class="titleEditIcon mb-3">
             <i class="bi bi-pencil-fill fs-5 text-warning-dark"></i>
@@ -116,9 +118,10 @@
 
     <!-- Add form-->
     <div id="addTarget" class="mb-2 hidden"><!-- class : hidden -->
-      <div class="d-flex justify-content-center"> 
-        <button id="addClose" class="btn p-0"> <!-- close btn -->
-          <i class="bi bi-x-lg fs-4"> </i>
+      <div class="d-flex justify-content-around"> 
+        <p class="fw-bold text-success fs-4"> Add </p>
+        <button id="addClose" class="d-flex align-items-center btn p-0 mb-2"> <!-- close btn -->
+          <i class="bi bi-x-lg fs-4"></i><span class="badge text-secondary">closed</span>
         </button>
       </div>
       <div class="d-flex justify-content-center gap-2 mx-2">
@@ -149,9 +152,10 @@
 
     <!-- Edit form -->
     <div id="editTarget" class="hidden mb-2 "> <!--hidden -->
-      <div class="d-flex justify-content-center">
-        <button id="editClose" class="btn fw-bold d-flex"> <!-- edit btn -->
-          <i class="bi bi-x-lg fs-4"> </i> 
+      <div class="d-flex justify-content-around"> 
+        <p class="fw-bold text-success fs-4"> Edit</p>
+        <button id="editClose" class="d-flex align-items-center btn p-0 mb-2"> <!-- edit btn -->
+          <i class="bi bi-x-lg fs-4"></i><span class="badge text-secondary">closed</span>
         </button>
       </div>
       <div class="d-flex justify-content-center gap-2 mx-2">
@@ -288,7 +292,7 @@
     <!-- Footer -->
     <footer class="container-fluid position-fixed bottom-0  p-0">
       <div class="bg-dark text-light contaziner-fluid text-center p-4">
-        <p class="mb-0">&copy; 2024 Mon Site Web. Tous droits réservés.</p>
+        <p class="mb-0">&copy; 2024 <strong>EasyGraph</strong> Tous droits réservés.</p>
       </div>
     </footer>
 
